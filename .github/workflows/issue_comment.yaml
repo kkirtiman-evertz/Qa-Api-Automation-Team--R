@@ -1,5 +1,13 @@
 name : comment on issue
 
 on:
-  issue:
+  issues:
     types: [opened]
+
+jobs:
+  comment-with-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "dump github context"
+        run: echo "From action"
+        shell: bash
