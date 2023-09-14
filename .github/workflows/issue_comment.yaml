@@ -14,12 +14,8 @@ jobs:
       - name: Create comment
         uses: actions/checkout@v2
         with:
-          issue-number: 1
+          issue-number: 9
           body: |
             This is a multi-line test comment
-            - With GitHub **Markdown** :sparkles:
-            - Created by [create-or-update-comment][1]
-
-            [1]: https://github.com/peter-evans/create-or-update-comment
-          reactions: '+1'
+            - Created by Kirtiman
    
