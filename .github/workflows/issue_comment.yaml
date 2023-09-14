@@ -13,7 +13,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Setting up GitHub CLI..."
-          echo -n $GH_TOKEN | gh auth login --with-token -
+          echo -n $GH_TOKEN | gh auth login --with-token
           echo "GitHub CLI setup complete."
 
       - name: Create Comment with API
