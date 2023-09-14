@@ -13,16 +13,21 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Add a comment to the issue
-        uses: actions/github-script@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const issueComment = "Thank you for opening this issue!";
-            const { data: comment } = await github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: issueComment,
-            });
-            console.log(`Comment created: ${comment.html_url}`);
+          node-version: '14'
+
+      - name: Add a comment to the issue
+        run: |
+          const github = require('@actions/github');
+          const issueComment = "Thank you for opening this issue!";
+          const client = new github.GitHub(process.env.GITHUB_TOKEN);
+          client.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: issueComment,
+          });
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
