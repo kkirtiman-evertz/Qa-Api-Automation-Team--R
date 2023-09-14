@@ -1,32 +1,19 @@
-name : comment on issue
+name: Comment on Issue
 
 on:
   issues:
     types: [opened]
 
 jobs:
-  # comment-with-action:
-    # runs-on: ubuntu-latest
-    # steps:
-    #   - name: "dump github context"
-    #     run: echo '${{ toJSON(github.event) }}' | jq
-    #     shell: bash
-    #   - name: Create comment
-    #     uses: actions/checkout@v2
-    #     with:
-    #       issue-number: 9
-    #       body: |
-    #         This is a multi-line test comment
-    #         - Created by Kirtiman
-     comment-with-api:
-       runs-on: ubuntu-latest
-       steps:
-         - name: create commment with api
-           run :
-            gh api -X POST "https://api.github.com/repos/${ORGANIZATION}/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments" -f body='Comment but From API call not action'
-            
-           env:
-             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-             ORGANIZATION: ${{ github.event.organisation.login }}
-             REPOSITORY: ${{ github.event.repository.name }}
-             ISSUE_NUMBER: ${{ github.event.issue.number }}
+  comment-with-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Comment with API
+        env:
+          ORGANIZATION: evertz-fbrnd
+          REPOSITORY: Qa-Api-Automation-Team--R
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh auth login --with-token <<<"${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}"
+          gh api -X POST "https://api.github.com/repos/${ORGANIZATION}/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments" -f body='Comment but From API call not action'
+
