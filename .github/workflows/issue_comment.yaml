@@ -14,6 +14,5 @@ jobs:
           REPOSITORY: Qa-Api-Automation-Team--R
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          gh auth login --with-token <<<"${{ secrets.SHA256:EfpW9BUFI6swgBEX7KoUJnN9DtQCq5SIAhKv+9yYA8I }}"
+          gh auth login --with-token <<<"${{ secrets['SHA256:EfpW9BUFI6swgBEX7KoUJnN9DtQCq5SIAhKv+9yYA8I'] }}"
           gh api -X POST "https://api.github.com/repos/${ORGANIZATION}/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments" -f body='Comment but From API call not action'
-
