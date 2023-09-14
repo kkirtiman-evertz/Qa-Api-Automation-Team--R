@@ -1,0 +1,28 @@
+name: Add Comment on Issue
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  add-comment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Add a comment to the issue
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueComment = "Thank you for opening this issue!";
+            const { data: comment } = await github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: issueComment,
+            });
+            console.log(`Comment created: ${comment.html_url}`);
