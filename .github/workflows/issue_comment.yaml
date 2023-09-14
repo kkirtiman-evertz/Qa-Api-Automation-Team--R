@@ -8,6 +8,14 @@ jobs:
   comment-with-api:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Setting up GitHub CLI..."
+          gh auth login --with-token $GH_TOKEN
+          echo "GitHub CLI setup complete."
+
       - name: Create Comment with API
         env:
           ORGANIZATION: evertz-fbrnd
