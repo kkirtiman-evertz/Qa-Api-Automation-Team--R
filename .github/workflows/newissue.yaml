@@ -18,16 +18,8 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Add a comment to the issue
+      - name: Execute JavaScript
         run: |
-          const github = require('@actions/github');
-          const issueComment = "Thank you for opening this issue!";
-          const client = new github.GitHub(process.env.GITHUB_TOKEN);
-          client.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: issueComment,
-          });
+          node path/to/add-comment.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
