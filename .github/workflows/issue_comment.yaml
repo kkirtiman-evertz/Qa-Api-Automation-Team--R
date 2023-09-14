@@ -11,6 +11,7 @@ jobs:
       - name: Set up GitHub CLI
         run: |
           echo "Setting up GitHub CLI..."
+          gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
           echo "GitHub CLI setup complete."
         
       - name: Create Comment with API
@@ -19,5 +20,4 @@ jobs:
           REPOSITORY: Qa-Api-Automation-Team--R
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          echo -n ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
           gh api -X POST "https://api.github.com/repos/${ORGANIZATION}/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments" -f body='Comment but From API call not action'
