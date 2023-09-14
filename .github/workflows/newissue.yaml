@@ -20,6 +20,6 @@ jobs:
 
       - name: Execute JavaScript
         run: |
-          node path/to/add-comment.js
+          node .github/workflows/add-comment.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
