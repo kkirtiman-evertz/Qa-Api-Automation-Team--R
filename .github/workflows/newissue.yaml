@@ -1,28 +1,28 @@
-name: Add Comment on Issue
+# name: Add Comment on Issue
 
-on:
-  issues:
-    types:
-      - opened
+# on:
+#   issues:
+#     types:
+#       - opened
 
-jobs:
-  add-comment:
-    runs-on: ubuntu-latest
+# jobs:
+#   add-comment:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Check out code
+#         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '14'
 
-      - name: Install Dependencies
-        run: npm install @actions/github
+#       - name: Install Dependencies
+#         run: npm install @actions/github
 
-      - name: Execute JavaScript
-        run: |
-          node .github/workflows/add-comment.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Execute JavaScript
+#         run: |
+#           node .github/workflows/add-comment.js
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
