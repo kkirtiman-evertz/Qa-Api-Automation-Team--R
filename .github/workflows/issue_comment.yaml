@@ -9,5 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "dump github context"
-        run: echo "From action"
+        run: echo "${{ github.event.comment.id }}"
         shell: bash
