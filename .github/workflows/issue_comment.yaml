@@ -1,4 +1,4 @@
-name: Comment on Issue
+name: comment on issue
 
 on:
   issues:
@@ -9,15 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up GitHub CLI
+        uses: actions/checkout@v2
+
+      - name: Create comment with API
         run: |
-          echo "Setting up GitHub CLI..."
-          echo "GitHub CLI setup complete."
-        
-      - name: Create Comment with API
-        env:
+          # Extract the necessary information
           ORGANIZATION: evertz-fbrnd
           REPOSITORY: Qa-Api-Automation-Team--R
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: |
-          echo -n ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
-          gh api -X POST "https://api.github.com/repos/ORGANIZATION/REPOSITORY/issues/ISSUE_NUMBER/comments" -f body='Comment but From API call not action'
+
+          # Comment using the GitHub CLI
+          gh api -X POST "repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments" -f body='Comment but From API call not action'
+          
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
