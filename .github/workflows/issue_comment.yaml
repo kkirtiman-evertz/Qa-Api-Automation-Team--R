@@ -16,7 +16,7 @@ jobs:
           # Extract the necessary information
           ORGANIZATION="evertz-fbrnd"
           REPOSITORY="Qa-Api-Automation-Team--R"
-          ISSUE_NUMBER= ${{ github.event.issue.number }}
+          ISSUE_NUMBER=${{ github.event.issue.number }}
 
 
           # Comment using the GitHub CLI
