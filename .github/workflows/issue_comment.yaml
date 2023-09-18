@@ -19,7 +19,7 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
 
           # Comment using the GitHub CLI
-          gh api -X POST "repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments" -f body='Comment but From API call not action'
+          gh api -X POST "repos/$ORGANIZATION/$REPOSITORY/issues/$ISSUE_NUMBER/comments" -f body='Comment but From API call not action'
           
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
