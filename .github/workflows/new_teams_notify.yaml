@@ -23,7 +23,7 @@ jobs:
           mention_users="[@api-design](https://github.com/orgs/evertz-fbrnd/teams/api-design)"
           title="Channel Release Check"
           
-          # Create an adaptive card with a "body" field containing a text element
+          # Create an adaptive card with only a "text" field
           adaptive_card='{
             "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
             "type": "AdaptiveCard",
