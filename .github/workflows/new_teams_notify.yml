@@ -20,7 +20,7 @@ jobs:
           issue_title="${{ github.event.issue.title }}"
           issue_url="${{ github.event.issue.html_url }}"
           user_login="${{ github.event.issue.user.login }}"
-          mention_users="@api-design"
+          mention_users="[@api-design](https://github.com/orgs/evertz-fbrnd/teams/api-design)"
           title="Channel Release Check"
           message="Hi ${mention_users}, this is a test. A new issue has been opened: [${issue_title}](${issue_url}) by [@$user_login](https://github.com/$user_login). Please review it."
           
