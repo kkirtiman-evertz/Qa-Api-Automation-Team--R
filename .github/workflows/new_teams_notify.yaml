@@ -31,17 +31,13 @@ jobs:
             "body": [
               {
                 "type": "TextBlock",
-                "text": "New Channel Service Release Test",
+                "text": "Channel Release Check",
                 "size": "large",
                 "weight": "bolder"
               },
               {
                 "type": "TextBlock",
-                "text": "Hey Team, this test is using adaptive cards."
-              },
-              {
-                "type": "TextBlock",
-                "text": "Issue: [${issue_title}](${issue_url}) opened by [@$user_login](https://github.com/$user_login)"
+                "text": "Hi ${mention_users}, this is a test. A new issue has been opened: [${issue_title}](${issue_url}) by [@$user_login](https://github.com/$user_login). Please review it."
               }
             ]
           }'
