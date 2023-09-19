@@ -22,6 +22,6 @@ jobs:
           user_login="${{ github.event.issue.user.login }}"
           mention_users="[@api-design](https://github.com/orgs/evertz-fbrnd/teams/api-design)"
           title="Channel Release Check"
-          message="Hi team ${mention_users},this is a test,Could you start assigning tickets to yourself. Thanks "
-          # message="New issue opened: [${issue_title}](${issue_url}) by [@$user_login](https://github.com/$user_login) ${mention_users}"
+          message=" **${title}**
+          Hi team ${mention_users} , this is a test, Could you start assigning tickets to yourself. Thanks "
           curl -H "Content-Type: application/json" -d "{\"text\":\"$message\"}" -X POST $TEAMS_WEBHOOK_URL
