@@ -31,13 +31,13 @@ jobs:
             "body": [
               {
                 "type": "TextBlock",
-                "text": "${title}",
+                "text": "New Channel Service Release Test",
                 "size": "large",
                 "weight": "bolder"
               },
               {
                 "type": "TextBlock",
-                "text": "${message}"
+                "text": "Hey Team this test is using via adaptive cards."
               }
             ]
           }'
