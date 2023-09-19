@@ -42,4 +42,11 @@ jobs:
             ]
           }'
           
-          curl -H "Content-Type: application/json" -d "{\"type\":\"message/card.template\",\"content\":$adaptive_card}" -X POST $TEAMS_WEBHOOK_URL
+          # Replace double quotes in adaptive_card JSON with escaped double quotes
+          adaptive_card_escaped=$(echo "$adaptive_card" | sed 's/"/\\"/g')
+          
+          # Create the JSON payload for the Teams message
+          payload="{\"type\":\"message/card.template\",\"content\": \"$adaptive_card_escaped\"}"
+          
+          # Send the message to the Teams webhook
+          curl -H "Content-Type: application/json" -d "$payload" -X POST $TEAMS_WEBHOOK_URL
