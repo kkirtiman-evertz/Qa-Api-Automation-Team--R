@@ -9,9 +9,6 @@ jobs:
   notify-ms-teams:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
       - name: Notify MS Teams
         uses: thechetantalwar/teams-notify@v2
         with:
