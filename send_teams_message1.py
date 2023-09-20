@@ -18,17 +18,17 @@ message = {
                     },
                     {
                         "type": "TextBlock",
-                        "text": "This is user mention. Hi: <at>USER NAME</at>!",
+                        "text": "This is user mention. Hi: <at>Kumar Kiritman</at>!",
                         "size": "Medium"
                     },
                     {
                         "type": "TextBlock",
-                        "text": "And this mentions tag <at>TAG NAME</at>!",
+                        "text": "And this mentions tag <at>CS Release QA</at>!",
                         "size": "Medium"
                     },
                     {
                         "type": "TextBlock",
-                        "text": "This is channel mention. Hello: <at>CHANNEL NAME</at>!",
+                        "text": "This is channel mention. Hello: <at>NotificationTest</at>!",
                         "size": "Medium"
                     }
                 ],
