@@ -25,12 +25,10 @@ def send_comment_to_channel(channel_id, comment_text):
     }
 
     # Send the message to the channel using the Microsoft Graph API
-    response = requests.post(url, data=json.dumps(message_payload), headers=headers)
+response = requests.post(url, data=json.dumps(message_payload), headers=headers)
+print(response.status_code)
+print(response.text)
 
-    if response.status_code == 201:
-        print("Comment posted successfully.")
-    else:
-        print("Failed to post comment.")
 
 # Call the function to send a comment to the channel
 # Replace 'your-channel-id' with the actual channel ID and provide your comment text
