@@ -2,7 +2,7 @@ import requests
 
  
 people_queue = [
-    {"name": "Shankhajit Sen", "mailId": "kkirtiman@evertz.com"},
+    {"name": "Shankhajit Sen"},
 ]
 
  
@@ -37,7 +37,6 @@ def send_reminder(person):
                                 "type": "mention",
                                 "text": mention,
                                 "mentioned": {
-                                    "id": person['mailId'],
                                     "name": person['name']
                                 }
                             }
