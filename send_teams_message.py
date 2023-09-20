@@ -3,11 +3,13 @@ import requests
  
 people_queue = [
     {"name": "Shankhajit Sen"},
+    {"name": "Akanksha Arunkumar"},
+    {"name": " Archana Madalageri"},
 ]
 
  
 def send_reminder(person):
-    mention = f"<at>{person['name']}</at>"
+   mention = person['name']
     message = {
         "type": "message",
         "attachments": [
@@ -25,7 +27,7 @@ def send_reminder(person):
                         {
                             "type": "TextBlock",
                             "wrap": True,
-                            "text": f"Hi {mention} team, This a test to check whether the tags are working fine or not.Please ignore it Thank you!"
+                            "text": f"Hi {mention} team, This is a test to check whether the tags are working fine or not. Please ignore it. Thank you!"
                         }
                     ],
                     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -36,9 +38,6 @@ def send_reminder(person):
                             {
                                 "type": "mention",
                                 "text": mention,
-                                "mentioned": {
-                                    "name": person['name']
-                                }
                             }
                         ]
                     }
@@ -46,6 +45,7 @@ def send_reminder(person):
             }
         ]
     }
+
     teams_webhook_url = "https://evertz1.webhook.office.com/webhookb2/33be58bf-bed8-4287-bd32-7b739fd3a2f6@e7ca1d1b-0b74-449f-8cc2-a9865bfc0a5f/IncomingWebhook/3fd543a567cb4d55ad46646ef1a798e2/bb4014fc-682b-4603-bb76-e94aff3c8d10"
     headers = {
         "Content-Type": "application/json"
