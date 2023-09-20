@@ -23,7 +23,7 @@ jobs:
           mention_users="[@api-design](https://github.com/orgs/evertz-fbrnd/teams/api-design)"
           title="**Channel Release Check**"
           message=" **${title}** \n\n\n\n
-          Hi ${mention_users} team, this is a test, Could you start assigning tickets to yourself. Thanks "
+          Hi team, this is a test, Could you start assigning tickets to yourself. Thanks "
           curl -H "Content-Type: application/json" -d "{\"text\":\"$message\"}" -X POST $TEAMS_WEBHOOK_URL
 
           # Send the message using Python script
