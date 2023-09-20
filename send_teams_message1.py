@@ -1,3 +1,4 @@
+import requests
 message = {
     "type": "message",
     "attachments": [
