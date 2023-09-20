@@ -34,6 +34,7 @@ def send_comment_to_channel(channel_id, comment_text):
 
 # Call the function to send a comment to the channel
 # Replace 'your-channel-id' with the actual channel ID and provide your comment text
+team_id = "33be58bf-bed8-4287-bd32-7b739fd3a2f6"
 channel_id = "19%3a7aca7755587a42a995e838b64712ca7f%40thread.tacv2"
 send_comment_to_channel(channel_id, comment_content)
 
