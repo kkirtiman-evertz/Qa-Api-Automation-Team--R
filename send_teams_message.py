@@ -9,7 +9,7 @@ people_queue = [
 
  
 def send_reminder(person):
-   mention = person['name']
+    mention = person['name']  # Mention by name
     message = {
         "type": "message",
         "attachments": [
