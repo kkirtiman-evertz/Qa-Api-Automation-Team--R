@@ -7,7 +7,7 @@ webhook_url = "https://evertz1.webhook.office.com/webhookb2/33be58bf-bed8-4287-b
 mention = {
     "type": "mention",
     "mentionType": 1,  # 1 for user mention, 2 for team mention
-    "text": "John Doe"  # Replace with the name of the user or team you want to mention
+    "text": "Kumar Kirtiman"  # Replace with the name of the user or team you want to mention
 }
 
 # Message to send as an adaptive card
