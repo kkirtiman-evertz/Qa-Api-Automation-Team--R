@@ -29,7 +29,7 @@ def send_reminder(person):
                         {
                             "type": "TextBlock",
                             "wrap": True,
-                            "text": f"Hi {mention} team, This a test to check whether the tags are working fine or not.Please ignore it Thank you! #CSReleaseQA"
+                            "text": f"Hi {mention} team, This a test to check whether the tags are working fine or not.Please ignore it Thank you! @CS Release QA "
                         }
                     ],
                     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
