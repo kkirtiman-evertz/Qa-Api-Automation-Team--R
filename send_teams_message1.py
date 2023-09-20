@@ -5,13 +5,6 @@ import json
 comment_content = "This is a comment for the channel."
 
 def send_comment_to_channel(channel_id, comment_text):
-    # Define the message payload
-    message_payload = {
-        "body": {
-            "content": comment_text
-        }
-    }
-
     # Define the URL for posting the message to the channel
     url = f"https://graph.microsoft.com/v1.0/teams/{team_id}/channels/{channel_id}/messages"
     
@@ -24,16 +17,25 @@ def send_comment_to_channel(channel_id, comment_text):
         "Content-Type": "application/json"
     }
 
-    # Send the message to the channel using the Microsoft Graph API
-response = requests.post(url, data=json.dumps(message_payload), headers=headers)
-print(response.status_code)
-print(response.text)
+    # Define the message payload
+    message_payload = {
+        "body": {
+            "content": comment_text
+        }
+    }
 
+    # Send the message to the channel using the Microsoft Graph API
+    response = requests.post(url, data=json.dumps(message_payload), headers=headers)
+
+    if response.status_code == 201:
+        print("Comment posted successfully.")
+    else:
+        print("Failed to post comment.")
 
 # Call the function to send a comment to the channel
 # Replace 'your-channel-id' with the actual channel ID and provide your comment text
-team_id = "33be58bf-bed8-4287-bd32-7b739fd3a2f6"
 channel_id = "19%3a7aca7755587a42a995e838b64712ca7f%40thread.tacv2"
+team_id = "33be58bf-bed8-4287-bd32-7b739fd3a2f6"
 send_comment_to_channel(channel_id, comment_content)
 
 
