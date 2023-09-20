@@ -7,7 +7,7 @@ webhook_url = "https://evertz1.webhook.office.com/webhookb2/33be58bf-bed8-4287-b
 
  
 # Mention a specific user by their display name
-mentioned_user = "Kumar Kirtiman"  # Replace with the display name of the user you want to mention
+mentioned_user = "Shankhajit Sen"  # Replace with the display name of the user you want to mention
 
 # Message to send
 message = {
