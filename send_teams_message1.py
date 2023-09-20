@@ -13,7 +13,7 @@ def send_comment_to_channel(channel_id, comment_text):
     }
 
     # Define the URL for posting the message to the channel
-    url = f"https://graph.microsoft.com/v1.0/teams/{your-team-id}/channels/{channel_id}/messages"
+    url = f"https://graph.microsoft.com/v1.0/teams/{team_id}/channels/{channel_id}/messages"
     
     # Define your access token (you need to obtain this via authentication)
     access_token = "your-access-token"
