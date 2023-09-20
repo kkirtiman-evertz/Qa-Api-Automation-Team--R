@@ -6,12 +6,13 @@ import requests
 webhook_url = "https://evertz1.webhook.office.com/webhookb2/33be58bf-bed8-4287-bd32-7b739fd3a2f6@e7ca1d1b-0b74-449f-8cc2-a9865bfc0a5f/IncomingWebhook/3fd543a567cb4d55ad46646ef1a798e2/bb4014fc-682b-4603-bb76-e94aff3c8d10"
 
  
+# Mention a specific user by their display name
+mentioned_user = "Kumar Kirtiman"  # Replace with the display name of the user you want to mention
 
 # Message to send
 message = {
-    "text": "Hello @kumarkirtiman from Python!",
+    "text": f"Hello {mentioned_user} from Python!",  # Mention the user in the message
 }
-
  
 
 # Send the message using a POST request
