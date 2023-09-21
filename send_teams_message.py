@@ -4,7 +4,9 @@ import requests
 
 
 people_queue = [
-    {"name": "Shankhajit Sen", "mailId": "kkirtiman@evertz.com"},
+    {"name": "Kumar", "mailId": "kkirtiman@evertz.com"},
+    {"name": "Sen", "mailId": "ssen@evertz.com"},
+    {"name": "Anirudh ", "mailId": "avipinkumar@evertz.com"},
 ]
 
  
