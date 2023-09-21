@@ -2,9 +2,7 @@ import requests
 
  
 people_queue = [
-    {"name": "Shankhajit Sen"},
-    {"name": "Akanksha Arunkumar"},
-    {"name": " Archana Madalageri"},
+    {"name": "Shankhajit Sen","mail":"ssen@evertz.com"},
 ]
 
  
