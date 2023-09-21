@@ -9,8 +9,7 @@ message = {
                     "body": [
                         {
                             "type": "TextBlock",
-                            "text": "Hi <at>NotificationTest
-</at>"
+                            "text": "Hi <at>NotificationTest</at>"
                         }
                     ],
                     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -19,8 +18,7 @@ message = {
                         "entities": [
                             {
                                 "type": "mention",
-                                "text": "<at>NotificationTest
-</at>",
+                                "text": "<at>NotificationTest</at>",
                                 "mentioned": {
                                     "id": "19%3a7aca7755587a42a995e838b64712ca7f%40thread.tacv2",
                                     "conversationIdentityType": "channel",
