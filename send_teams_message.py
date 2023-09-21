@@ -3,7 +3,7 @@ import requests
 people_queue = [
     {"name": "Kumar", "mailId": "kkirtiman@evertz.com"},
     {"name": "Sen", "mailId": "ssen@evertz.com"},
-    {"name": "Anirudh ", "mailId": "avipinkumar@evertz.com"},
+    {"name": "Anirudh", "mailId": "avipinkumar@evertz.com"},
 ]
 
 def create_mention(person):
@@ -53,11 +53,12 @@ def send_reminder(mentions):
     headers = {
         "Content-Type": "application/json"
     }
-    response = requests.post(teams_webhook_url, json=message, headers=headers)
-    if response.status_code == 200:
+    try:
+        response = requests.post(teams_webhook_url, json=message, headers=headers)
+        response.raise_for_status()  # Raise an exception for non-200 status codes
         print("Reminder sent successfully.")
-    else:
-        print("Failed to send reminder.")
+    except Exception as e:
+        print(f"Failed to send reminder: {str(e)}")
 
 # Create mentions for all people in the queue
 mentions = [create_mention(person) for person in people_queue]
