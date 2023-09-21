@@ -16,15 +16,16 @@ message = {
                     "version": "1.0",
                     "msteams": {
                         "entities": [
-                            {
-                                "type": "mention",
-                                "text": "<at>QA Backend Automation</at>",
-                                "mentioned": {
-                                    "id": "19%3a197281d17732432cb32b937961c99c88%40thread.tacv2",
-                                    "conversationIdentityType": "channel",
-                                    "conversationIdentityType@odata.type": "#Microsoft.Teams.GraphSvc.conversationIdentityType",
-                                }
-                            }
+                                          {
+                "type": "mention",
+                "text": "<at>Hey Team,This is just a test</at>",
+                "mentioned": {
+                  "id": "19%3a197281d17732432cb32b937961c99c88%40thread.tacv2",
+                  "displayName": "QA Backend Automation",
+                  "conversationIdentityType": "channel",
+                  "conversationIdentityType@odata.type": "#Microsoft.Teams.GraphSvc.conversationIdentityType"
+                }
+              }
                         ]
                     }
                 }
