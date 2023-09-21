@@ -9,7 +9,7 @@ message = {
                     "body": [
                         {
                             "type": "TextBlock",
-                            "text": "Hi <at>NotificationTest</at>"
+                            "text": "Hi <at>QA Backend Automation</at>"
                         }
                     ],
                     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -18,9 +18,9 @@ message = {
                         "entities": [
                             {
                                 "type": "mention",
-                                "text": "<at>NotificationTest</at>",
+                                "text": "<at>QA Backend Automation</at>",
                                 "mentioned": {
-                                    "id": "19%3a7aca7755587a42a995e838b64712ca7f%40thread.tacv2",
+                                    "id": "19%3a197281d17732432cb32b937961c99c88%40thread.tacv2",
                                     "conversationIdentityType": "channel",
                                     "conversationIdentityType@odata.type": "#Microsoft.Teams.GraphSvc.conversationIdentityType",
                                 }
