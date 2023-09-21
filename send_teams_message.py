@@ -1,9 +1,9 @@
 import requests
 
 people_queue = [
-    {"name": "Shankhajit Sen", "mailId": "kkirtiman@evertz.com"},
-    {"name": "Archana M", "mailId": "kkirtiman@evertz.com"},
-    {"name": "Akansha A", "mailId": "kkirtiman@evertz.com"},
+    {"name": "Kumar", "mailId": "kkirtiman@evertz.com"},
+    # {"name": "Halima", "mailId": "halimaa@evertz.com"},
+    # {"name": "Ashish", "mailId": "asonone@evertz.com"},
     # Add more people as needed
 ]
 
@@ -28,7 +28,8 @@ def send_reminder(people):
                         {
                             "type": "TextBlock",
                             "wrap": True,
-                            "text": f"Hi {mention_text} team, This is a test message. Please ignore it. Thank you!"
+                            "text": f"Hi {mention_text} team, This is a final test before moving forward.You can start assigning 
+tickets to yourself \n Thank you!"
                         }
                     ],
                     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
