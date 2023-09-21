@@ -2,8 +2,7 @@ import requests
 
 people_queue = [
     {"name": "Kumar", "mailId": "kkirtiman@evertz.com"},
-    {"name": "Sen", "mailId": "ssen@evertz.com"},
-    {"name": "Anirudh", "mailId": "avipinkumar@evertz.com"},
+   
 ]
 
 def create_mention(person):
