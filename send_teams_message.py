@@ -28,8 +28,9 @@ def send_reminder(people):
                         {
                             "type": "TextBlock",
                             "wrap": True,
-                            "text": f"Hi {mention_text} team, This is a final test before moving forward.You can start assigning 
-tickets to yourself \n Thank you!"
+                            "text": f"""Hi {mention_text} team, This is a final test before moving forward.
+                            You can start assigning tickets to yourself.
+                            Thank you!"""
                         }
                     ],
                     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
