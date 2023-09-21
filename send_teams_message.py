@@ -28,8 +28,8 @@ def send_reminder(people):
                         {
                             "type": "TextBlock",
                             "wrap": True,
-                            "text": f"""Hi {mention_text} team, This is a final test before moving forward.
-                            You can start assigning tickets to yourself.
+                            "text": f"""Hi {mention_text} team,\n This is a <b>final test</b> before moving forward.\n
+                            You can start assigning tickets to yourself.\n
                             Thank you!"""
                         }
                     ],
