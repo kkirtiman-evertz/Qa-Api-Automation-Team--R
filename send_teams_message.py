@@ -1,19 +1,16 @@
 import requests
 
- 
-
-
 people_queue = [
     {"name": "Kumar", "mailId": "kkirtiman@evertz.com"},
     {"name": "Sen", "mailId": "ssen@evertz.com"},
     {"name": "Anirudh ", "mailId": "avipinkumar@evertz.com"},
 ]
 
- 
-
-
-def send_reminder(person):
+def create_mention(person):
     mention = f"<at>{person['name']}</at>"
+    return mention
+
+def send_reminder(mentions):
     message = {
         "type": "message",
         "attachments": [
@@ -31,7 +28,7 @@ def send_reminder(person):
                         {
                             "type": "TextBlock",
                             "wrap": True,
-                            "text": f"Hi {mention} team, This a test to check whether the tags are working fine or not.Please ignore it Thank you!"
+                            "text": f"Hi {', '.join(mentions)} team, This is a test to check whether the tags are working fine or not. Please ignore it. Thank you!"
                         }
                     ],
                     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -41,11 +38,10 @@ def send_reminder(person):
                         "entities": [
                             {
                                 "type": "mention",
-                                "text": mention,
-                                "mentioned": {
-                                    "id": person['mailId'],
-                                    "name": person['name']
-                                }
+                                "text": ', '.join(mentions),
+                                "mentioned": [
+                                    {"id": person['mailId'], "name": person['name']} for person in people_queue
+                                ]
                             }
                         ]
                     }
@@ -53,7 +49,7 @@ def send_reminder(person):
             }
         ]
     }
-    teams_webhook_url = "https://evertz1.webhook.office.com/webhookb2/33be58bf-bed8-4287-bd32-7b739fd3a2f6@e7ca1d1b-0b74-449f-8cc2-a9865bfc0a5f/IncomingWebhook/3fd543a567cb4d55ad46646ef1a798e2/bb4014fc-682b-4603-bb76-e94aff3c8d10"
+    teams_webhook_url = "YOUR_TEAMS_WEBHOOK_URL"  # Replace with your actual webhook URL
     headers = {
         "Content-Type": "application/json"
     }
@@ -63,8 +59,8 @@ def send_reminder(person):
     else:
         print("Failed to send reminder.")
 
- 
+# Create mentions for all people in the queue
+mentions = [create_mention(person) for person in people_queue]
 
-# Send reminders to each person in the queue
-for person in people_queue:
-    send_reminder(person)
+# Send a single reminder message mentioning all people
+send_reminder(mentions)
