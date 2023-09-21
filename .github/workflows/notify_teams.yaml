@@ -27,4 +27,4 @@ jobs:
           curl -H "Content-Type: application/json" -d "{\"text\":\"$message\"}" -X POST $TEAMS_WEBHOOK_URL
 
           # Send the message using Python script
-          python send_teams_message.py # Replace with the actual filename of your Python script
+          python send_teams_message1.py # Replace with the actual filename of your Python script
