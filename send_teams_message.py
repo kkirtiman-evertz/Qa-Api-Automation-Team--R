@@ -49,7 +49,7 @@ def send_reminder(mentions):
             }
         ]
     }
-    teams_webhook_url = "YOUR_TEAMS_WEBHOOK_URL"  # Replace with your actual webhook URL
+    teams_webhook_url = "https://evertz1.webhook.office.com/webhookb2/33be58bf-bed8-4287-bd32-7b739fd3a2f6@e7ca1d1b-0b74-449f-8cc2-a9865bfc0a5f/IncomingWebhook/3fd543a567cb4d55ad46646ef1a798e2/bb4014fc-682b-4603-bb76-e94aff3c8d10"  # Replace with your actual webhook URL
     headers = {
         "Content-Type": "application/json"
     }
