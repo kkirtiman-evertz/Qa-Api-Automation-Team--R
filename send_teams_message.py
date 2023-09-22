@@ -1,9 +1,9 @@
 import requests
 
 people_queue = [
-    {"name": "Uday", "mailId": "ukumar@evertz.com"},
-    {"name": "Halima", "mailId": "halimaa@evertz.com"},
-    {"name": "Ashish", "mailId": "asonone@evertz.com"},
+    {"name": "Kumar", "mailId": "kkirtiman@evertz.com"},
+    # {"name": "Halima", "mailId": "halimaa@evertz.com"},
+    # {"name": "Ashish", "mailId": "asonone@evertz.com"},
     # Add more people as needed
 ]
 
@@ -30,6 +30,8 @@ def send_reminder(people):
                             "wrap": True,
                             "text": f"""Hi {mention_text} team,\n This is a **final test** before moving forward.\n
                             You can start assigning tickets to yourself.\n
+                            CS Release QA
+                            qa-backend-automation
                             Thank you!"""
                         }
                     ],
