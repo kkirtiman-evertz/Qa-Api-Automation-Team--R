@@ -50,7 +50,6 @@ def construct_message(people):
     return message
 
 # Construct the message
-message = construct_message(people_queue)
 
 message = construct_message(people_queue)
 print(json.dumps(message))
