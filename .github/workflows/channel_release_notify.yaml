@@ -13,12 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Get Python script output
-        id: python-output
+      - name: Generate Message JSON
         run: |
-           python_script_output=$(python mention_people.py)  
-           echo "PYTHON_SCRIPT_OUTPUT=$python_script_output" >> $GITHUB_ENV
-           echo "Python script output: $python_script_output"
+          python mention_people.py > message.json
 
       - name: Notify Teams
         run: |
@@ -32,11 +29,9 @@ jobs:
             "sections":[ \
               {"facts":[ \
                 {"name":"Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
-                {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
-                
+                {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \ 
               ]} \
             ], \
-             echo "$message_json" > message.json
           }
           EOF
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
