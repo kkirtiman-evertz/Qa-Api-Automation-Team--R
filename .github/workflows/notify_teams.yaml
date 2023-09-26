@@ -13,6 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Generate Message JSON
+        run: |
+          python mention_people.py > message.json
+        working-directory: path/to/your/python/script/directory
+
       - name: Notify Teams
         run: |
           # title="**Channel Release Check**"
