@@ -21,7 +21,7 @@ jobs:
             "@context": "https://schema.org/extensions", \
             "summary": "Channel Service Release", \
             "themeColor": "ff0000", \
-            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}", \
+            "title": "Channel Service Release ${{ github.event.issue.numberN }}", \
             "sections":[ \
               {"facts":[ \
                 {"name":"Full Changelog", "value": "https://github.com/evertz-fbrnd/jblakeney-release-testing/releases/tag/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
