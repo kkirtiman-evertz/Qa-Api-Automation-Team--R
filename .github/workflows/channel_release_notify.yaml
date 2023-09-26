@@ -18,6 +18,7 @@ jobs:
         run: |
            python_script_output=$(python mention_people.py)  
            echo "PYTHON_SCRIPT_OUTPUT=$python_script_output" >> $GITHUB_ENV
+           echo "Python script output: $python_script_output"
 
       - name: Notify Teams
         run: |
