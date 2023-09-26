@@ -16,7 +16,6 @@ jobs:
       - name: Generate Message JSON
         run: |
           python mention_people.py > message.json
-        working-directory: path/to/your/python/script/directory
 
       - name: Notify Teams
         run: |
