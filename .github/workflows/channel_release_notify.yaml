@@ -21,10 +21,10 @@ jobs:
             "@context": "https://schema.org/extensions", \
             "summary": "Channel Service Release", \
             "themeColor": "ff0000", \
-            "title": "Channel Service Release ${{ github.event.issue.numberN }}", \
+            "title": "Channel Service Release ${{ github.event.issue.number }}", \
             "sections":[ \
               {"facts":[ \
-                {"name":"Full Changelog", "value": "https://github.com/evertz-fbrnd/jblakeney-release-testing/releases/tag/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
+                {"name":"Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
                 {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
               ]} \
             ], \
