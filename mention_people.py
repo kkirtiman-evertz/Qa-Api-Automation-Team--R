@@ -52,6 +52,3 @@ def construct_message(people):
 # Construct the message
 message = construct_message(people_queue)
 
-# Optionally, you can convert the message dictionary to JSON format if needed
-message_json = json.dumps(message, indent=2)
-print(message_json)
