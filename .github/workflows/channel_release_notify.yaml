@@ -16,7 +16,7 @@ jobs:
       - name: Get Python script output
         id: python-output
         run: |
-          python_script_output=$(python mention_people.py.py)
+          python_script_output=$(python mention_people.py)
           echo "::set-output name=message::$python_script_output"
 
       - name: Notify Teams
