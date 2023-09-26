@@ -32,7 +32,7 @@ jobs:
               {"facts":[ \
                 {"name":"Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
                 {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}, \
-                {"name":"People to tag", "value": "$python_script_output"} \
+                {"name":"People to tag", "value": "${{ python_script_output }}"} \
               ]} \
             ], \
           }
