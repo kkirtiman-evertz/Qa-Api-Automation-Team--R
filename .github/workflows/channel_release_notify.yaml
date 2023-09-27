@@ -19,6 +19,10 @@ jobs:
 
       - name: Notify Teams
         run: |
+          cat message.json | curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @-
+
+      - name: Notify Teams
+        run: |
           cat << EOF > message.json
           { \
             "@type": "MessageCard", \
