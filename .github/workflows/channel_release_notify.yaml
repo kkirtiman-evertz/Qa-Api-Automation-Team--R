@@ -17,28 +17,23 @@ jobs:
 
       - name: Notify Teams
         run: |
-          MENTION_CONTENT=$(python mention_people.py)
           cat << EOF > message.json
           { \
             "@type": "MessageCard", \
             "@context": "https://schema.org/extensions", \
             "summary": "Channel Service Release", \
             "themeColor": "ff0000", \
-            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}",
-            "sections": [
-              {
-                "facts": [
-                  {"name": "Full Changelog", "value": "https://github.com/evertz-fbrnd/jblakeney-release-testing/releases/tag/${{ steps.create-issue.outputs.CS_VERSION }}"},
-                  {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
-                ]
-              },
-              {
-                "header": "Mentioned People",
-                "facts": [
-                  {"name": "Mentioned People List", "value": "$MENTION_CONTENT"}
-                ]
-              }
-            ]
+            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}", \
+            "sections":[ \
+              {"facts":[ \
+                {"name":"Full Changelog", "value": "https://github.com/evertz-fbrnd/jblakeney-release-testing/releases/tag/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
+                {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
+              ]} \
+            ], \
           }
           EOF
+      
+          # Your custom message here
+          echo 'Hey Team'
+      
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
