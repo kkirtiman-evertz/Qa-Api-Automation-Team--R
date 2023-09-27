@@ -26,7 +26,7 @@ jobs:
             "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}", \
             "sections":[ \
               {"facts":[ \
-                {"name":"Full Changelog", "value": "https://github.com/evertz-fbrnd/jblakeney-release-testing/releases/tag/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
+                {"name":"Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
                 {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
               ]},
               {"startGroup": true, "title": "Mention Team", "text": "Hey Team"},
