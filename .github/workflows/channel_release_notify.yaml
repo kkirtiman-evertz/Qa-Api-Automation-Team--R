@@ -28,12 +28,10 @@ jobs:
               {"facts":[ \
                 {"name":"Full Changelog", "value": "https://github.com/evertz-fbrnd/jblakeney-release-testing/releases/tag/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
                 {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
-              ]} \
-            ], \
+              ]},
+              {"startGroup": true, "title": "Mention Team", "text": "Hey Team"},
+            ] \
           }
           EOF
-      
-          # Your custom message here
-          echo 'Hey Team'
-      
+
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
