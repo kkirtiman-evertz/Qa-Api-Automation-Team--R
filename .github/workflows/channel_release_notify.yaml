@@ -17,7 +17,7 @@ jobs:
       - name: Run Python script
         id: mention_response
         run: |
-          pipenv run python path/to/mention_people.py
+          pipenv run python mention_people.py
           mention_response="${{ steps.mention_response.outputs.stdout }}"
 
       - name: Notify Teams
