@@ -1,5 +1,3 @@
-name: Notify Teams on New Issue
-
 on:
   issues:
     types:
@@ -15,27 +13,28 @@ jobs:
 
       - name: Generate Message JSON
         run: |
-          python mention_people.py > message.json
+          python mention_people.py > mention.json
+
+      - name: Generate Teams Message JSON
+        id: teams-message
+        run: |
+          echo "{
+            \"@type\": \"MessageCard\",
+            \"@context\": \"https://schema.org/extensions\",
+            \"summary\": \"Channel Service Release\",
+            \"themeColor\": \"ff0000\",
+            \"title\": \"Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}\",
+            \"sections\":[
+              {\"facts\":[
+                {\"name\":\"Full Changelog\", \"value\": \"https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}\"},
+                {\"name\":\"QA Check List\", \"value\": \"${{ steps.create-issue.outputs.ISSUE_URL }}\"}
+              ]}
+            ]
+          }" > teams.json
+
+      - name: Combine JSON
+        run: cat mention.json teams.json > message.json
 
       - name: Notify Teams
         run: |
-          cat message.json | curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @-
-
-      - name: Notify Teams
-        run: |
-          cat << EOF > message.json
-          { \
-            "@type": "MessageCard", \
-            "@context": "https://schema.org/extensions", \
-            "summary": "Channel Service Release", \
-            "themeColor": "ff0000", \
-            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}", \
-            "sections":[ \
-              {"facts":[ \
-                {"name":"Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
-                {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
-              ]} \
-            ], \
-          }
-          EOF
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
