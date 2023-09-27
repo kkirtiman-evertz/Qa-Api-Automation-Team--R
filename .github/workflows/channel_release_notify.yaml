@@ -15,35 +15,30 @@ jobs:
         run: |
           python mention_people.py > mention.json
 
-      - name: Generate Teams Message JSON
-        id: teams-message
-        run: |
-          echo "{
-            \"@type\": \"MessageCard\",
-            \"@context\": \"https://schema.org/extensions\",
-            \"summary\": \"Channel Service Release\",
-            \"themeColor\": \"ff0000\",
-            \"title\": \"Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}\",
-            \"sections\":[
-              {\"facts\":[
-                {\"name\":\"Full Changelog\", \"value\": \"https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}\"},
-                {\"name\":\"QA Check List\", \"value\": \"${{ steps.create-issue.outputs.ISSUE_URL }}\"}
-              ]}
-            ]
-          }" > teams.json
-
-      - name: Combine JSON
-        run: |
-          cat mention.json > message.json
-          echo "" >> message.json  # Add a newline
-          cat teams.json >> message.json
-          
-      - name: Display Message JSON
-        run: cat message.json
-
-      - name: Validate JSON
-        run: cat message.json | jq .
-      
       - name: Notify Teams
         run: |
+          MENTION_CONTENT=$(python mention_people.py)
+          cat << EOF > message.json
+          { \
+            "@type": "MessageCard", \
+            "@context": "https://schema.org/extensions", \
+            "summary": "Channel Service Release", \
+            "themeColor": "ff0000", \
+            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}",
+            "sections": [
+              {
+                "facts": [
+                  {"name": "Full Changelog", "value": "https://github.com/evertz-fbrnd/jblakeney-release-testing/releases/tag/${{ steps.create-issue.outputs.CS_VERSION }}"},
+                  {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
+                ]
+              },
+              {
+                "header": "Mentioned People",
+                "facts": [
+                  {"name": "Mentioned People List", "value": "$MENTION_CONTENT"}
+                ]
+              }
+            ]
+          }
+          EOF
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
