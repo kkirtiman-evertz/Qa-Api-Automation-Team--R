@@ -14,17 +14,11 @@ jobs:
       - name: Install Pipenv
         run: pip install pipenv
 
-      - name: Activate Pipenv
-        run: pipenv shell
-
-      - name: Run Python script and capture output
+      - name: Run Python script
         id: mention_response
         run: |
-          # Capture the output of mention_people.py
-          mention_response=$(pipenv run python path/to/mention_people.py)
-
-          # Print the captured output (for debugging purposes)
-          echo "Mention Response: $mention_response"
+          pipenv run python path/to/mention_people.py
+          mention_response="${{ steps.mention_response.outputs.stdout }}"
 
       - name: Notify Teams
         run: |
