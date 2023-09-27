@@ -1,6 +1,4 @@
 import json
-# Activate the Pipenv environment
-pipenv shell
 
 people_queue = [
     {"name": "Kumar", "mailId": "kkirtiman@evertz.com"},
