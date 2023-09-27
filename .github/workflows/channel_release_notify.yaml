@@ -37,7 +37,13 @@ jobs:
           cat mention.json > message.json
           echo "" >> message.json  # Add a newline
           cat teams.json >> message.json
+          
+      - name: Display Message JSON
+        run: cat message.json
 
+      - name: Validate JSON
+        run: cat message.json | jq .
+      
       - name: Notify Teams
         run: |
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
