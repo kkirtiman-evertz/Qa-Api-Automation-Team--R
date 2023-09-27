@@ -17,6 +17,8 @@ jobs:
 
       - name: Notify Teams
         run: |
+          mention_response=$(pipenv run python src/mention_people.py)
+          
           cat << EOF > message.json
           { \
             "@type": "MessageCard", \
@@ -29,7 +31,7 @@ jobs:
                 {"name":"Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
                 {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
               ]},
-              {"startGroup": true, "title": "Mention Team", "text": "Hey Team"},
+              {"startGroup": true, "title": "Mention Team", "text": "$mention_response"},
             ] \
           }
           EOF
