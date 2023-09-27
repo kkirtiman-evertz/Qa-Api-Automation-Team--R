@@ -11,9 +11,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Generate Message JSON
-        run: |
-          python mention_people.py > mention.json
+      # - name: Generate Message JSON
+      #   run: |
+      #     python mention_people.py > mention.json
 
       - name: Notify Teams
         run: |
