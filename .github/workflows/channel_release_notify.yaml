@@ -33,7 +33,10 @@ jobs:
           }" > teams.json
 
       - name: Combine JSON
-        run: cat mention.json teams.json > message.json
+        run: |
+          cat mention.json > message.json
+          echo "" >> message.json  # Add a newline
+          cat teams.json >> message.json
 
       - name: Notify Teams
         run: |
