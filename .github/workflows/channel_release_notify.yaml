@@ -17,10 +17,8 @@ jobs:
 
       - name: Notify Teams
         run: |
-          pipenv shell
-
           # Run the Python script
-          python mention_people.py
+          pipenv run python mention_people.py
           
           cat << EOF > message.json
           { \
