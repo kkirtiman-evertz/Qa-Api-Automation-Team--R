@@ -1,7 +1,7 @@
 name: Run Linters and Automated Tests for PRs
 on:
   pull_request:
-    types: completed
+    types: closed
   workflow_dispatch:
 jobs:
   test:
@@ -12,6 +12,7 @@ jobs:
       packages: write
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.merged
 
     steps:
       - name: Check out repository code
