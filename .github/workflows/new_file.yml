@@ -37,24 +37,24 @@ jobs:
             "@context": "https://schema.org/extensions",
             "summary": "Channel Service Release",
             "themeColor": "ff0000",
-            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}",
+            "title": "Channel Service Release ",
             "sections":[
               {
                 "facts":[
                   {
                     "name":"Full Changelog",
-                    "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"
+                    "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/"
                   },
                   {
                     "name":"QA Check List",
-                    "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"
+                    "value": ""
                   }
                 ]
               },
               {
                 "startGroup": true,
                 "title": "Mention Team",
-                "text": "${{ env.mention_response }}"
+                "text": $mention_response  # Use the variable directly
               },
               {
                 "title": "Hey Team",
@@ -65,7 +65,10 @@ jobs:
           EOF
       
           # Send the JSON message to Microsoft Teams
-          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' --data "@message.json"
+          curl -X POST *** --header 'Content-Type: application/json' --data "@message.json"
+          shell: /usr/bin/bash -e {0}
+        env:
+          mention_response: $mention_response  # Use the variable directly
           
             # - name: Notify Teams
             #   run: |
