@@ -25,12 +25,54 @@ jobs:
           # Print the captured output for debugging purposes
           echo "Mention Response: $mention_response"
           echo "mention_response=$mention_response" >> $GITHUB_ENV
+
       - name: Notify Teams
         run: |
           mention_response='${{ env.mention_response }}'  # Enclose in single quotes
-
-          # Store the generated JSON message in a file
-          echo "$mention_response" > message.json
-
+      
+          # Store the generated JSON messages in a file
+          cat <<EOF > message.json
+          {
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": "Channel Service Release",
+            "themeColor": "ff0000",
+            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}",
+            "sections":[
+              {
+                "facts":[
+                  {
+                    "name":"Full Changelog",
+                    "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"
+                  },
+                  {
+                    "name":"QA Check List",
+                    "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"
+                  }
+                ]
+              },
+              {
+                "startGroup": true,
+                "title": "Mention Team",
+                "text": "${{ env.mention_response }}"
+              },
+              {
+                "title": "Additional Message",
+                "text": "This is an additional message that you want to include."
+              }
+            ]
+          }
+          EOF
+      
           # Send the JSON message to Microsoft Teams
-          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' --data "@message.json"    
+          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' --data "@message.json"
+          
+            # - name: Notify Teams
+            #   run: |
+            #     mention_response='${{ env.mention_response }}'  # Enclose in single quotes
+      
+            #     # Store the generated JSON message in a file
+            #     echo "$mention_response" > message.json
+      
+            #     # Send the JSON message to Microsoft Teams
+            #     curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' --data "@message.json"    
