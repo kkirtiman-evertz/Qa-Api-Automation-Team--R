@@ -66,7 +66,6 @@ jobs:
       
           # Send the JSON message to Microsoft Teams
           curl -X POST *** --header 'Content-Type: application/json' --data "@message.json"
-          shell: /usr/bin/bash -e {0}
         env:
           mention_response: $mention_response  # Use the variable directly
           
