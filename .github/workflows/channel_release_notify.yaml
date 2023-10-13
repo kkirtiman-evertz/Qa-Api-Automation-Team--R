@@ -16,7 +16,7 @@ jobs:
       - name: Notify Teams
         run: |
           person_to_message='{"name": "Kumar", "mailId": "kkirtiman@evertz.com"}'
-          mention_text="<at>${person_to_message['name']}</at>"
+          mention_text="<at>${person_to_message["name"]}</at>"
           
           # Construct the message JSON
           message_json=$(cat << EOF
