@@ -18,7 +18,8 @@ jobs:
           person_to_message='{"name": "Kumar", "mailId": "kkirtiman@evertz.com"}'
           mention_text="<at>${person_to_message['name']}</at>"
           
-          cat << EOF > message.json
+          # Construct the message JSON
+          message_json=$(cat << EOF
           {
             "@type": "MessageCard",
             "@context": "https://schema.org/extensions",
@@ -32,7 +33,9 @@ jobs:
                   {"name":"QA Check List", "value": ""}
                 ]
               }
-            ],
+            ]
+          }
+          {
             "type": "message",
             "attachments": [
               {
@@ -72,4 +75,8 @@ jobs:
             ]
           }
           EOF
+          )
+          
+          # Write the message JSON to a file
+          echo "$message_json" > message.json
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
