@@ -20,8 +20,8 @@ jobs:
         run: |
           mention_text="Kumar"  # Mention text
           mention="kkirtiman@evertz.com"  # Mention email address
-
-          message='{"type": "message","text": "Hi ' + mention_text + ' team,\nThis is a final test before moving forward."}'
+      
+          message="{\"type\": \"message\", \"text\": \"Hi $mention_text team,\\nThis is a final test before moving forward.\"}"
           echo "$message" > message.json
 
       - name: Notify Teams
