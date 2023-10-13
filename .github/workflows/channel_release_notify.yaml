@@ -18,23 +18,28 @@ jobs:
           person_to_message='{"name": "Kumar", "mailId": "kkirtiman@evertz.com"}'
           mention_text="<at>${person_to_message["name"]}</at>"
           
-          # Construct the message JSON
-          message_json=$(cat << EOF
+          # Create the MessageCard section
+          message_card=$(cat << EOF
           {
             "@type": "MessageCard",
             "@context": "https://schema.org/extensions",
             "summary": "Channel Service Release",
             "themeColor": "ff0000",
             "title": "Channel Service Release",
-            "sections":[
+            "sections": [
               {
-                "facts":[
-                  {"name":"Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R"},
-                  {"name":"QA Check List", "value": ""}
+                "facts": [
+                  {"name": "Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R"},
+                  {"name": "QA Check List", "value": ""}
                 ]
               }
             ]
           }
+          EOF
+          )
+          
+          # Create the AdaptiveCard section
+          adaptive_card=$(cat << EOF
           {
             "type": "message",
             "attachments": [
@@ -43,7 +48,6 @@ jobs:
                 "content": {
                   "type": "AdaptiveCard",
                   "body": [
-                  
                     {
                       "type": "TextBlock",
                       "wrap": true,
@@ -72,6 +76,12 @@ jobs:
           EOF
           )
           
+          # Combine the MessageCard and AdaptiveCard sections
+          message_json="{ $message_card, $adaptive_card }"
+          
           # Write the message JSON to a file
           echo "$message_json" > message.json
+
+          # Replace <YOUR_WEBHOOK_URL> with your actual webhook URL
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
+        #curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
