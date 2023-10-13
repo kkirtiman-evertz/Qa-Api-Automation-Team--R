@@ -38,21 +38,21 @@ jobs:
             "@context": "https://schema.org/extensions",
             "summary": "Channel Service Release",
             "themeColor": "ff0000",
-            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}",
+            "title": "Channel Service Release ",
             "sections": [
               {
                 "facts": [
                   {
                     "name": "Full Changelog",
-                    "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"
+                    "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/"
                   },
                   {
                     "name": "QA Check List",
-                    "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"
+                    "value": ""
                   },
                   {
                     "name": "Mention",
-                    "value": "'"$mention_text"' ('$mention')"
+                    "value": "Kumar"
                   }
                 ]
               }
@@ -60,4 +60,4 @@ jobs:
           }
           EOF
 
-          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
+          curl -X POST *** --header 'Content-Type: application/json' -d @message.json
