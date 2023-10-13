@@ -3,7 +3,7 @@ name: Notify Teams on New Issue
 on:
   issues:
     types:
-      - closed
+      - open
 
 jobs:
   notify:
