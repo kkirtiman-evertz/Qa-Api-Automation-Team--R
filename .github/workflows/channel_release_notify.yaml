@@ -12,28 +12,26 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
-      # - name: Install Pipenv
-      #   run: pip install pipenv
 
       - name: Notify Teams
         run: |
-          person = {"name": "Kumar", "mailId": "kkirtiman@evertz.com"}
-          mention_text = f"<at>{person['name']}</at>"
-      
-          message_text = f"Hi {mention_text} team,\n This is a final test before moving forward."
-    
-          message = {
+          person='{"name": "Kumar", "mailId": "kkirtiman@evertz.com"}'
+          mention_text="<at>Kumar</at>"
+
+          message_text="Hi Kumar team,\n This is a final test before moving forward"
+
+          message='{
               "type": "message",
-              "text": message_text,
+              "text": "'"$message_text"'",
               "msteams": {
                   "entities": [
-                      {"type": "mention", "text": mention_text, "mentioned": {"id": person['mailId'], "name": person['name']}}
+                      {"type": "mention", "text": "'"$mention_text"'", "mentioned": '"$person"'}
                   ]
               }
-          }
+          }'
+
           echo "$message" > message.json
-      
+
           cat << EOF > message.json
           {
             "@type": "MessageCard",
@@ -54,12 +52,12 @@ jobs:
                   },
                   {
                     "name": "Mention",
-                    "value": "$mention_text ($mention)"
+                    "value": "'"$mention_text"' ('$mention')"
                   }
                 ]
               }
             ]
           }
           EOF
-      
+
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
