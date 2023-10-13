@@ -26,8 +26,6 @@ jobs:
           
       - name: Notify Teams
         run: |
-          mention_response="${{ env.mention_response }}" 
-          
           cat << EOF > message.json
           { \
             "@type": "MessageCard", \
@@ -39,10 +37,8 @@ jobs:
               {"facts":[ \
                 {"name":"Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
                 {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
-              ]},\
-              {"startGroup": true, "title": "Mention Team", "text": "${{ env.mention_response }}"},\
-            ] \
+              ]} \
+            ], \
           }
           EOF
-
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
