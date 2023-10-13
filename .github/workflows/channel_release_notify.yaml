@@ -18,10 +18,20 @@ jobs:
 
       - name: Notify Teams
         run: |
-          mention_text="Kumar"  # Mention text
-          mention="kkirtiman@evertz.com"  # Mention email address
+          person = {"name": "Kumar", "mailId": "kkirtiman@evertz.com"}
+          mention_text = f"<at>{person['name']}</at>"
       
-          message="{\"type\": \"message\", \"text\": \"Hi $mention_text team,\nThis is a final test before moving forward.\"}"
+          message_text = f"Hi {mention_text} team,\n This is a final test before moving forward."
+    
+          message = {
+              "type": "message",
+              "text": message_text,
+              "msteams": {
+                  "entities": [
+                      {"type": "mention", "text": mention_text, "mentioned": {"id": person['mailId'], "name": person['name']}}
+                  ]
+              }
+          }
           echo "$message" > message.json
       
           cat << EOF > message.json
