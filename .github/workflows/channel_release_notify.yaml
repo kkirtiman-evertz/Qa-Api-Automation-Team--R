@@ -16,16 +16,14 @@ jobs:
       - name: Install Pipenv
         run: pip install pipenv
 
-      - name: Mention User
+      - name: Notify Teams
         run: |
           mention_text="Kumar"  # Mention text
           mention="kkirtiman@evertz.com"  # Mention email address
       
-          message="{\"type\": \"message\", \"text\": \"Hi $mention_text team,\\nThis is a final test before moving forward.\"}"
+          message="{\"type\": \"message\", \"text\": \"Hi $mention_text team,\nThis is a final test before moving forward.\"}"
           echo "$message" > message.json
-
-      - name: Notify Teams
-        run: |
+      
           cat << EOF > message.json
           {
             "@type": "MessageCard",
@@ -36,12 +34,22 @@ jobs:
             "sections": [
               {
                 "facts": [
-                  {"name": "Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"},
-                  {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
+                  {
+                    "name": "Full Changelog",
+                    "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"
+                  },
+                  {
+                    "name": "QA Check List",
+                    "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"
+                  },
+                  {
+                    "name": "Mention",
+                    "value": "$mention_text ($mention)"
+                  }
                 ]
               }
             ]
           }
           EOF
-
+      
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
