@@ -1,3 +1,5 @@
+name: Notify Teams on Issue Closure
+
 on:
   issues:
     types:
@@ -13,22 +15,33 @@ jobs:
         
       - name: Install Pipenv
         run: pip install pipenv
-          
+
+      - name: Mention User
+        run: |
+          mention_text="Kumar"  # Mention text
+          mention="kkirtiman@evertz.com"  # Mention email address
+
+          message='{"type": "message","text": "Hi ' + mention_text + ' team,\nThis is a final test before moving forward."}'
+          echo "$message" > message.json
+
       - name: Notify Teams
         run: |
           cat << EOF > message.json
-          { \
-            "@type": "MessageCard", \
-            "@context": "https://schema.org/extensions", \
-            "summary": "Channel Service Release", \
-            "themeColor": "ff0000", \
-            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}", \
-            "sections":[ \
-              {"facts":[ \
-                {"name":"Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"}, 
-                {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
-              ]} \
-            ], \
+          {
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": "Channel Service Release",
+            "themeColor": "ff0000",
+            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}",
+            "sections": [
+              {
+                "facts": [
+                  {"name": "Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/${{ steps.create-issue.outputs.CS_VERSION }}"},
+                  {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
+                ]
+              }
+            ]
           }
           EOF
+
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
