@@ -1,4 +1,4 @@
-name: Notify Teams on Issue Closure
+name: Notify Teams on New Issue
 
 on:
   issues:
@@ -13,51 +13,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Generate Message JSON
+        run: |
+          python mention_people.py > message.json
+
       - name: Notify Teams
         run: |
-          person='{"name": "Kumar", "mailId": "kkirtiman@evertz.com"}'
-          mention_text="<at>Kumar</at>"
-
-          message_text="Hi Kumar team,\n This is a final test before moving forward"
-
-          message='{
-              "type": "message",
-              "text": "'"$message_text"'",
-              "msteams": {
-                  "entities": [
-                      {"type": "mention", "text": "'"$mention_text"'", "mentioned": '"$person"'}
-                  ]
-              }
-          }'
-
-          echo "$message" > message.json
-
           cat << EOF > message.json
-          {
-            "@type": "MessageCard",
-            "@context": "https://schema.org/extensions",
-            "summary": "Channel Service Release",
-            "themeColor": "ff0000",
-            "title": "Channel Service Release ",
-            "sections": [
-              {
-                "facts": [
-                  {
-                    "name": "Full Changelog",
-                    "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R/"
-                  },
-                  {
-                    "name": "QA Check List",
-                    "value": ""
-                  },
-                  {
-                    "name": "Mention",
-                    "value": "Kumar"
-                  }
-                ]
-              }
-            ]
+          { \
+            "@type": "MessageCard", \
+            "@context": "https://schema.org/extensions", \
+            "summary": "Channel Service Release", \
+            "themeColor": "ff0000", \
+            "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}", \
+            "sections":[ \
+              {"facts":[ \
+                {"name":"Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R"}, 
+                {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
+              ]} \
+            ], \
           }
           EOF
-
-          curl -X POST *** --header 'Content-Type: application/json' -d @message.json
+          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
