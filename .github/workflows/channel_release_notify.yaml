@@ -77,7 +77,7 @@ jobs:
           )
           
           # Combine the MessageCard and AdaptiveCard sections
-          message_json="{ $message_card, $adaptive_card }"
+          message_json="{\"@type\": \"MessageCard\", \"content\": $message_card, \"@type\": \"message\", \"content\": $adaptive_card}"
           
           # Write the message JSON to a file
           echo "$message_json" > message.json
