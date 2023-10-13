@@ -43,12 +43,7 @@ jobs:
                 "content": {
                   "type": "AdaptiveCard",
                   "body": [
-                    {
-                      "type": "TextBlock",
-                      "size": "Medium",
-                      "weight": "Bolder",
-                      "text": "Channel Service Release Reminder"
-                    },
+                  
                     {
                       "type": "TextBlock",
                       "wrap": true,
@@ -64,8 +59,8 @@ jobs:
                         "type": "mention",
                         "text": "${mention_text}",
                         "mentioned": {
-                          "id": "${person_to_message['mailId']}",
-                          "name": "${person_to_message['name']}"
+                          "id": "${person_to_message["mailId"]}",
+                          "name": "${person_to_message["name"]}"
                         }
                       }
                     ]
