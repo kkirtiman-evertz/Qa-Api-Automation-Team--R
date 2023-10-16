@@ -26,7 +26,7 @@ jobs:
                       "body": [
                         {
                           "type": "TextBlock",
-                          "wrap": true,
+                          "wrap": True,
                           "text": "Channel Service Release",
                           "size": "large",
                           "weight": "bolder",
