@@ -1,5 +1,3 @@
-name: Notify Teams on New Issue
-
 on:
   issues:
     types:
@@ -15,53 +13,53 @@ jobs:
 
       - name: Notify Teams
         run: |
-         message_repsonse = 
+          mention_response = 
+          {
+            "type": "message",
+            "attachments": [
               {
-              "type": "message",
-              "attachments": [
-                  {
                 "contentType": "application/vnd.microsoft.card.adaptive",
                 "content": {
-                    "type": "AdaptiveCard",
-                    "body": [
-                        {
-                            "type": "TextBlock",
-                            "size": "Medium",
-                            "weight": "Bolder",
-                            "text": "Channel Service Release Reminder"
-                        },
-                        {
-                          "type": "TextBlock",
-                          "text": "Full Changelog: [View Changelog](https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R)"
-                        },
-                        {
-                          "type": "TextBlock",
-                          "text": "QA Check List: "
-                        },
-                        {
-                          "type": "TextBlock",
-                          "wrap": true,
-                          "text": "Hi <at>Kumar</at> team,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
-                        }
-                      ],
-                      "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                      "version": "1.0",
-                      "msteams": {
-                        "width": "Full",
-                        "entities": [
-                          {
-                            "type": "mention",
-                            "text": "<at>Kumar</at>",
-                            "mentioned": {
-                              "id": "kkirtiman@evertz.com",
-                              "name": "Kumar"
-                            }
-                          }
-                        ]
-                      }
+                  "type": "AdaptiveCard",
+                  "body": [
+                    {
+                      "type": "TextBlock",
+                      "size": "Medium",
+                      "weight": "Bolder",
+                      "text": "Channel Service Release Reminder"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "Full Changelog: [View Changelog](https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R)"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "QA Check List: "
+                    },
+                    {
+                      "type": "TextBlock",
+                      "wrap": true,
+                      "text": "Hi <at>Kumar</at> team,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
                     }
+                  ],
+                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                  "version": "1.0",
+                  "msteams": {
+                    "width": "Full",
+                    "entities": [
+                      {
+                        "type": "mention",
+                        "text": "<at>Kumar</at>",
+                        "mentioned": {
+                          "id": "kkirtiman@evertz.com",
+                          "name": "Kumar"
+                        }
+                      }
+                    ]
                   }
-                ]
+                }
               }
-              echo "$mention_response" > message.json
-              curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
+            ]
+          }
+          echo "$mention_response" > message.json
+          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
