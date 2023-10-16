@@ -38,7 +38,6 @@ jobs:
           EOF
           )
           
-          # Create the AdaptiveCard section
           adaptive_card=$(cat << EOF
           {
             "type": "message",
@@ -51,7 +50,7 @@ jobs:
                     {
                       "type": "TextBlock",
                       "wrap": true,
-                      "text": "Hi ${mention_text} team,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
+                      "text": "Hi <at>Kumar</at> team,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
                     }
                   ],
                   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -61,10 +60,10 @@ jobs:
                     "entities": [
                       {
                         "type": "mention",
-                        "text": "${mention_text}",
+                        "text": "<at>Kumar</at>",
                         "mentioned": {
-                          "id": "${person_to_message["mailId"]}",
-                          "name": "${person_to_message["name"]}"
+                          "id": "kkirtiman@evertz.com",
+                          "name": "Kumar"
                         }
                       }
                     ]
