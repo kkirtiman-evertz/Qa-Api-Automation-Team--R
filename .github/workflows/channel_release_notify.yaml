@@ -14,7 +14,7 @@ jobs:
       - name: Notify Teams
         run: |
           cat << EOF > message.json
-          { \
+          {
             "type": "message",
             "attachments": [
               {
@@ -22,17 +22,6 @@ jobs:
                 "content": {
                   "type": "AdaptiveCard",
                   "body": [
-                    {
-                      "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}",
-                      "sections": [
-                        {
-                          "facts": [
-                            {"name": "Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R"},
-                            {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
-                          ]
-                        }
-                      ]
-                    },
                     {
                       "type": "TextBlock",
                       "wrap": true,
@@ -55,6 +44,17 @@ jobs:
                     ]
                   }
                 }
+              },
+              {
+                "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}",
+                "sections": [
+                  {
+                    "facts": [
+                      {"name": "Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/blob/main/channel-service/CHANGELOG.md"},
+                      {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
+                    ]
+                  }
+                ]
               }
             ]
           }
