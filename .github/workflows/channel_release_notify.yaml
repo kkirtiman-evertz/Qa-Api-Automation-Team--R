@@ -23,18 +23,15 @@ jobs:
                   "type": "AdaptiveCard",
                   "body": [
                     {
-                      "type": "TextBlock",
-                      "size": "Medium",
-                      "weight": "Bolder",
-                      "text": "Channel Service Release Reminder"
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": "Full Changelog: [View Changelog](https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R)"
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": "QA Check List: "
+                      "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}",
+                      "sections": [
+                        {
+                          "facts": [
+                            {"name": "Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R"},
+                            {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
+                          ]
+                        }
+                      ]
                     },
                     {
                       "type": "TextBlock",
