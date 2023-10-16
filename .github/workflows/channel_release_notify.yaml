@@ -93,11 +93,11 @@ jobs:
               EOF
               )
               
-              echo "$python_script" > send_teams_message.py
+              echo "$python_script" > send_teams_message22.py
               
               # Make the Python script executable
-              chmod +x send_teams_message.py
+              chmod +x send_teams_message22.py
               
               # Run the Python script
-              python send_teams_message.py
+              python send_teams_message22.py
 
