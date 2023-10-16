@@ -87,6 +87,7 @@ jobs:
           
           # Write the entire message JSON to a file
           echo "$message_json" > message.json
+          echo "$message_json"
           # Replace <YOUR_WEBHOOK_URL> with your actual webhook URL
-          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
+          curl -v -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
         #curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
