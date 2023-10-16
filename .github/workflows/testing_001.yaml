@@ -3,7 +3,7 @@ name: Notify Teams on Issue Closure
 on:
   issues:
     types:
-      - opened
+      - ope
 
 jobs:
   notify:
