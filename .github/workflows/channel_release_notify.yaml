@@ -70,116 +70,15 @@ jobs:
               
               # Write the entire adaptive card JSON to a file
               echo "$adaptive_card" > message.json
-              curl -v -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
+              response=$(curl -v -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json 2>&1)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-          # person_to_message='{"name": "Kumar", "mailId": "kkirtiman@evertz.com"}'
-          # mention_text="<at>${person_to_message["name"]}</at>"
-          
-          # # Create the MessageCard section
-          # message_card=$(cat << EOF
-          # {
-          #   "@type": "MessageCard",
-          #   "@context": "https://schema.org/extensions",
-          #   "summary": "Channel Service Release",
-          #   "themeColor": "ff0000",
-          #   "title": "Channel Service Release",
-          #   "sections": [
-          #     {
-          #       "facts": [
-          #         {"name": "Full Changelog", "value": "https://github.com/kkirtiman-evertz/Qa-Api-Automation-Team--R"},
-          #         {"name": "QA Check List", "value": ""}
-          #       ]
-          #     }
-          #   ]
-          # }
-          # EOF
-          # )
-          
-          # adaptive_card=$(cat << EOF
-          # {
-          #   "type": "message",
-          #   "attachments": [
-          #     {
-          #       "contentType": "application/vnd.microsoft.card.adaptive",
-          #       "content": {
-          #         "type": "AdaptiveCard",
-          #         "body": [
-          #           {
-          #             "type": "TextBlock",
-          #             "wrap": true,
-          #             "text": "Hi <at>Kumar</at> team,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
-          #           }
-          #         ],
-          #         "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-          #         "version": "1.0",
-          #         "msteams": {
-          #           "width": "Full",
-          #           "entities": [
-          #             {
-          #               "type": "mention",
-          #               "text": "<at>Kumar</at>",
-          #               "mentioned": {
-          #                 "id": "kkirtiman@evertz.com",
-          #                 "name": "Kumar"
-          #               }
-          #             }
-          #           ]
-          #         }
-          #       }
-          #     }
-          #   ]
-          # }
-          # EOF
-          # )
-          
-          # # Combine the MessageCard and AdaptiveCard sections
-          # message_json=$(cat << EOF
-          # {
-          #   "message_card": $message_card,
-          #   "adaptive_card": $adaptive_card
-          # }
-          # EOF
-          # )
-          
-          # # Write the entire message JSON to a file
-          # echo "$message_json" > message.json
-          # Replace <YOUR_WEBHOOK_URL> with your actual webhook URL
-          # curl -v -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
-        #curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
+              # Check the response for HTTP errors
+              http_status=$(echo "$response" | grep "HTTP/[0-9.]\+ [0-9]\+")
+              
+              if [[ $? -eq 0 ]]; then
+                # If HTTP status code is present, the request was successful
+                echo "Message sent successfully. HTTP Response: $http_status"
+              else
+                # If no HTTP status is present, there was an error
+                echo "Failed to send the message. Error message: $response"
+              fi
