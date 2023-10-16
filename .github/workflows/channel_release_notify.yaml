@@ -14,7 +14,7 @@ jobs:
       - name: Notify Teams
         run: |
           cat << EOF > message.json
-          {
+          { \
             "type": "message",
             "attachments": [
               {
@@ -22,6 +22,39 @@ jobs:
                 "content": {
                   "type": "AdaptiveCard",
                   "body": [
+                    {
+                    "type": "TextBlock",
+                    "text": "Channel Service Release Reminder",
+                    "size": "large",
+                    "weight": "bolder"
+                  },
+                    {
+                    "type": "TextBlock",
+                    "text": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}"
+                  },
+                    {
+                    "type": "Container",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "Sections:",
+                        "weight": "bolder"
+                      },
+                      {
+                        "type": "FactSet",
+                        "facts": [
+                          {
+                            "title": "Full Changelog",
+                            "value": "https://github.com/evertz-fbrnd/channel-as-a-service/blob/main/channel-service/CHANGELOG.md"
+                          },
+                          {
+                            "title": "QA Check List",
+                            "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"
+                          }
+                        ]
+                      }
+                    ]
+                  },
                     {
                       "type": "TextBlock",
                       "wrap": true,
@@ -44,17 +77,6 @@ jobs:
                     ]
                   }
                 }
-              },
-              {
-                "title": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}",
-                "sections": [
-                  {
-                    "facts": [
-                      {"name": "Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/blob/main/channel-service/CHANGELOG.md"},
-                      {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
-                    ]
-                  }
-                ]
               }
             ]
           }
