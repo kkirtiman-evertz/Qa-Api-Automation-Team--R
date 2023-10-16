@@ -1,0 +1,9 @@
+teams_webhook_url = "https://evertz1.webhook.office.com/webhookb2/f837b0cd-a625-4955-8915-b9f9d21c44dc@e7ca1d1b-0b74-449f-8cc2-a9865bfc0a5f/IncomingWebhook/c402396fb5ad4098b59db1b5dc892edf/0b3dd519-e571-4571-adbc-ff4940fe4522"
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.post(teams_webhook_url, json=message, headers=headers)
+    if response.status_code == 200:
+        print("Reminder sent successfully.")
+    else:
+        print("Failed to send reminder.")
