@@ -99,5 +99,5 @@ jobs:
               chmod +x send_teams_message.py
               
               # Run the Python script
-              ./send_teams_message.py
+              python send_teams_message.py
 
