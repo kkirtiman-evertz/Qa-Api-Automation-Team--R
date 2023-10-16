@@ -13,8 +13,8 @@ jobs:
 
       - name: Notify Teams
         run: |
-          mention_response = 
-          {
+          cat << EOF > message.json
+          { \
             "type": "message",
             "attachments": [
               {
@@ -61,5 +61,6 @@ jobs:
               }
             ]
           }
+          EOF
           echo "$mention_response" > message.json
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
