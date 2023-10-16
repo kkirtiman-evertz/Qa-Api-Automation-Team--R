@@ -14,4 +14,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Notify Teams
-        run: send_teams_message.py
+        run: python send_teams_message.py
