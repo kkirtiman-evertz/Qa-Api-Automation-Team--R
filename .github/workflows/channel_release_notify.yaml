@@ -15,22 +15,19 @@ jobs:
 
       - name: Notify Teams
         run: |
-              adaptive_card=$(cat << EOF
-              {
-                "type": "message",
-                "attachments": [
+              message = {
+              "type": "message",
+              "attachments": [
                   {
-                    "contentType": "application/vnd.microsoft.card.adaptive",
-                    "content": {
-                      "type": "AdaptiveCard",
-                      "body": [
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "content": {
+                    "type": "AdaptiveCard",
+                    "body": [
                         {
-                          "type": "TextBlock",
-                          "wrap": True,
-                          "text": "Channel Service Release",
-                          "size": "large",
-                          "weight": "bolder",
-                          "color": "accent"
+                            "type": "TextBlock",
+                            "size": "Medium",
+                            "weight": "Bolder",
+                            "text": "Channel Service Release Reminder"
                         },
                         {
                           "type": "TextBlock",
@@ -65,23 +62,9 @@ jobs:
                   }
                 ]
               }
-              EOF
-              )
               
-              # Write the entire adaptive card JSON to a file
-              echo "$adaptive_card" > message.json
               
-              teams_webhook_url="https://evertz1.webhook.office.com/webhookb2/33be58bf-bed8-4287-bd32-7b739fd3a2f6@e7ca1d1b-0b74-449f-8cc2-a9865bfc0a5f/IncomingWebhook/3fd543a567cb4d55ad46646ef1a798e2/bb4014fc-682b-4603-bb76-e94aff3c8d10"
-              headers=(
-                  "Content-Type: application/json"
-              )
-              
-              python_script=$(cat << EOF
-              import requests
-              
-              message = $adaptive_card
-              
-              teams_webhook_url = "$teams_webhook_url"
+              teams_webhook_url = "https://evertz1.webhook.office.com/webhookb2/33be58bf-bed8-4287-bd32-7b739fd3a2f6@e7ca1d1b-0b74-449f-8cc2-a9865bfc0a5f/IncomingWebhook/3fd543a567cb4d55ad46646ef1a798e2/bb4014fc-682b-4603-bb76-e94aff3c8d10"
               headers = {
                   "Content-Type": "application/json"
               }
@@ -90,14 +73,3 @@ jobs:
                   print("Reminder sent successfully.")
               else:
                   print("Failed to send reminder.")
-              EOF
-              )
-              
-              echo "$python_script" > send_teams_message22.py
-              
-              # Make the Python script executable
-              chmod +x send_teams_message22.py
-              
-              # Run the Python script
-              python send_teams_message22.py
-
