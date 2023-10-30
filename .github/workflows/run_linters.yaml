@@ -1,0 +1,19 @@
+name: Run Linters on PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run script on PR
+      run: |
+         bash run_linters.sh
