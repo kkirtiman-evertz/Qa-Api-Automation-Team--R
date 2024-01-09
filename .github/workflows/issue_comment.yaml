@@ -2,7 +2,7 @@ name: Comment on GitHub Issue
 
 on:
   issues:
-    types: [opened]
+    types: [clsoed]
 
 jobs:
   comment-with-api:
