@@ -2,7 +2,7 @@ name: Add Comment to New Issues
 on:
   issues:
     types:
-      - opened
+      - closed
 
 jobs:
   add-comment:
