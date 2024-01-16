@@ -45,7 +45,7 @@ jobs:
                         "type": "mention",
                         "text": "<at>Bhawan</at>",
                         "mentioned": {
-                          "id": "bhawan@example.com",
+                          "id": "bkchinavada@evertz.com",
                           "name": "Bhawan"
                         }
                       }
