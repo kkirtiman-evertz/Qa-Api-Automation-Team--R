@@ -40,12 +40,12 @@ jobs:
                           "id": "kkirtiman@evertz.com",
                           "name": "Kumar"
                         }
-                      }
-                       {
+                      },
+                      {
                         "type": "mention",
                         "text": "<at>Bhawan</at>",
                         "mentioned": {
-                          "id": "kkirtiman@evertz.com",
+                          "id": "bhawan@example.com",
                           "name": "Bhawan"
                         }
                       }
