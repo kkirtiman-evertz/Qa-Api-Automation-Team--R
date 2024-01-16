@@ -24,14 +24,8 @@ jobs:
                   "body": [
                     {
                       "type": "TextBlock",
-                      "text": "Channel Service Release Reminder",
-                      "size": "large",
-                      "weight": "bolder"
-                    },
-                    {
-                      "type": "TextBlock",
                       "wrap": true,
-                      "text": "Hi <at>Kumar</at> team,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
+                      "text": "Hi <at>Kumar</at>,<at>Bhawan</at> ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
                     }
                   ],
                   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -45,6 +39,14 @@ jobs:
                         "mentioned": {
                           "id": "kkirtiman@evertz.com",
                           "name": "Kumar"
+                        }
+                      }
+                       {
+                        "type": "mention",
+                        "text": "<at>Bhawan</at>",
+                        "mentioned": {
+                          "id": "kkirtiman@evertz.com",
+                          "name": "Bhawan"
                         }
                       }
                     ]
