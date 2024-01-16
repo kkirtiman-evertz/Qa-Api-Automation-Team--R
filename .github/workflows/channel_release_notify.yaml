@@ -13,11 +13,8 @@ jobs:
 
       - name: Notify Teams
         run: |
-          cat << EOF > message.json                    {
-                    "type": "TextBlock",
-                    "text": "Channel Service Release ${{ steps.create-issue.outputs.CS_VERSION }}"
-                  },
-          { \
+          cat << EOF > message.json
+          {
             "type": "message",
             "attachments": [
               {
@@ -26,11 +23,11 @@ jobs:
                   "type": "AdaptiveCard",
                   "body": [
                     {
-                    "type": "TextBlock",
-                    "text": "Channel Service Release Reminder",
-                    "size": "large",
-                    "weight": "bolder"
-                  },
+                      "type": "TextBlock",
+                      "text": "Channel Service Release Reminder",
+                      "size": "large",
+                      "weight": "bolder"
+                    },
                     {
                       "type": "TextBlock",
                       "wrap": true,
