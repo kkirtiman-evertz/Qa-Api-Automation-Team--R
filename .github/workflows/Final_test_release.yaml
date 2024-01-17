@@ -30,27 +30,7 @@ jobs:
               {
                 "type": "TextBlock",
                 "wrap": true,
-                "text": "Hi <at>Kumar</at>, <at>Bhawan</at>,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!",
-                "msteams": {
-                  "entities": [
-                    {
-                      "type": "mention",
-                      "text": "<at>Kumar</at>",
-                      "mentioned": {
-                        "id": "kkirtiman@evertz.com",
-                        "name": "Kumar"
-                      }
-                    },
-                    {
-                      "type": "mention",
-                      "text": "<at>Bhawan</at>",
-                      "mentioned": {
-                        "id": "bkchinavada@evertz.com",
-                        "name": "Bhawan"
-                      }
-                    }
-                  ]
-                }
+                "text": "Hi <at>kkirtiman@evertz.com|Kumar</at>, <at>bkchinavada@evertz.com|Bhawan</at>,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
               }
             ]
           }
