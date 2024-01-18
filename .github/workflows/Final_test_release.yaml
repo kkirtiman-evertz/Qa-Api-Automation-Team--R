@@ -14,33 +14,62 @@ jobs:
       - name: Notify Teams
         run: |
           # Create a combined JSON payload with both plain and adaptive cards
-          cat << EOF > message-combined.json
+          cat << EOF > message.json
+          { \
+            "@type": "MessageCard", \
+            "@context": "https://schema.org/extensions", \
+            "summary": "Channel Service Release", \
+            "themeColor": "ff0000", \
+            "title": "Channel Service Release ${{ steps.get-release-details.outputs.RELEASE_VERSION }}", \
+            "sections":[ \
+              {"facts":[ \
+                {"name":"Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/${{ steps.get-release-details.outputs.RELEASE_VERSION }}"}, 
+                {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
+              ]} \
+            ], \
+          },
           {
-            "@type": "MessageCard",
-            "@context": "https://schema.org/extensions",
-            "summary": "Channel Service Release",
-            "themeColor": "ff0000",
-            "title": "Channel Service Release ${{ steps.get-release-details.outputs.RELEASE_VERSION }}",
-            "sections": [
+            "type": "message",
+            "attachments": [
               {
-                "facts": [
-                  {"name": "Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/${{ steps.get-release-details.outputs.RELEASE_VERSION }}"},
-                  {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
-                ]
-              },
-              {
-                "type": "TextBlock",
-                "wrap": true,
-                "text": "Hi [Kumar](mention:kkirtiman@evertz.com), [Bhawan](mention:bkchinavada@evertz.com) ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "content": {
+                  "type": "AdaptiveCard",
+                  "body": [
+                    {
+                      "type": "TextBlock",
+                      "wrap": true,
+                      "text": "Hi <at>Kumar</at>,<at>Bhawan</at> ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
+                    }
+                  ],
+                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                  "version": "1.0",
+                  "msteams": {
+                    "width": "Full",
+                    "entities": [
+                      {
+                        "type": "mention",
+                        "text": "<at>Kumar</at>",
+                        "mentioned": {
+                          "id": "kkirtiman@evertz.com",
+                          "name": "Kumar"
+                        }
+                      },
+                      {
+                        "type": "mention",
+                        "text": "<at>Bhawan</at>",
+                        "mentioned": {
+                          "id": "bkchinavada@evertz.com",
+                          "name": "Bhawan"
+                        }
+                      }
+                    ]
+                  }
+                }
               }
-            ],
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.0",
-            "msteams": {
-              "width": "Full"
-            }
+            ]
           }
           EOF
 
           # Send the combined payload
-          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message-combined.json
+          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
