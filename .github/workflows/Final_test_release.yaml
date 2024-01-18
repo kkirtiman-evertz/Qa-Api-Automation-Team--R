@@ -13,10 +13,9 @@ jobs:
 
       - name: Notify Teams
         run: |
-          # Create a plain message card
-          cat << EOF > message-plain.json
+          cat << EOF > message.json
           {
-            "@type": "message",
+            "type": "message",
             "@context": "https://schema.org/extensions",
             "summary": "Channel Service Release",
             "themeColor": "ff0000",
@@ -28,7 +27,17 @@ jobs:
                   {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
                 ]
               }
-            ]
-          }
-          EOF
-          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message-plain.json
+            ],
+            "attachments": [
+              {
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "content": {
+                  "type": "AdaptiveCard",
+                  "body": [
+                    {
+                      "type": "TextBlock",
+                      "wrap": true,
+                      "text": "Hi <at>Kumar</at>,<at>Bhawan</at> ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
+                    }
+                  ],
+                  "$schema": "http://adaptivecards.io/schemas
