@@ -19,13 +19,18 @@ jobs:
             "@context": "https://schema.org/extensions",
             "summary": "Channel Service Release",
             "themeColor": "ff0000",
-            "title": "Channel Service Release ",
+            "title": "Channel Service Release",
             "sections": [
               {
                 "facts": [
                   {"name": "Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/"},
                   {"name": "QA Check List", "value": ""}
                 ]
+              },
+              {
+                "type": "TextBlock",
+                "wrap": true,
+                "text": "Hi <at>Kumar</at>,<at>Bhawan</at> ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
               }
             ],
             "attachments": [
