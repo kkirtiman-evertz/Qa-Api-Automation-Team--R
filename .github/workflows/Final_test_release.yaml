@@ -19,12 +19,12 @@ jobs:
             "@context": "https://schema.org/extensions",
             "summary": "Channel Service Release",
             "themeColor": "ff0000",
-            "title": "Channel Service Release ${{ steps.get-release-details.outputs.RELEASE_VERSION }}",
+            "title": "Channel Service Release ",
             "sections": [
               {
                 "facts": [
-                  {"name": "Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/${{ steps.get-release-details.outputs.RELEASE_VERSION }}"},
-                  {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
+                  {"name": "Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/"},
+                  {"name": "QA Check List", "value": ""}
                 ]
               }
             ],
@@ -40,4 +40,32 @@ jobs:
                       "text": "Hi <at>Kumar</at>,<at>Bhawan</at> ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
                     }
                   ],
-                  "$schema": "http://adaptivecards.io/schemas
+                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                  "version": "1.0",
+                  "msteams": {
+                    "width": "Full",
+                    "entities": [
+                      {
+                        "type": "mention",
+                        "text": "<at>Kumar</at>",
+                        "mentioned": {
+                          "id": "kkirtiman@evertz.com",
+                          "name": "Kumar"
+                        }
+                      },
+                      {
+                        "type": "mention",
+                        "text": "<at>Bhawan</at>",
+                        "mentioned": {
+                          "id": "bkchinavada@evertz.com",
+                          "name": "Bhawan"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+          EOF
+          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
