@@ -30,7 +30,7 @@ jobs:
               {
                 "type": "TextBlock",
                 "wrap": true,
-                "text": "Hi [Kumar](mailto:kkirtiman@evertz.com), [Bhawan](mailto:bkchinavada@evertz.com),\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
+                "text": "Hi @kkirtiman@evertz.com|Kumar, @bkchinavada@evertz.com|Bhawan \n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
               }
             ]
           }
