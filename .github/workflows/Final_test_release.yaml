@@ -13,22 +13,27 @@ jobs:
 
       - name: Notify Teams
         run: |
-          cat << EOF > message.json
-          { \
-            "@type": "MessageCard", \
-            "@context": "https://schema.org/extensions", \
-            "summary": "Channel Service Release", \
-            "themeColor": "ff0000", \
-            "title": "Channel Service Release ${{ steps.get-release-details.outputs.RELEASE_VERSION }}", \
-            "sections":[ \
-              {"facts":[ \
-                {"name":"Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/${{ steps.get-release-details.outputs.RELEASE_VERSION }}"}, 
-                {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
-              ]} \
-            ], \
+          # Create a plain message card
+          cat << EOF > message-plain.json
+          {
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": "Channel Service Release",
+            "themeColor": "ff0000",
+            "title": "Channel Service Release ${{ steps.get-release-details.outputs.RELEASE_VERSION }}",
+            "sections": [
+              {
+                "facts": [
+                  {"name": "Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/${{ steps.get-release-details.outputs.RELEASE_VERSION }}"},
+                  {"name": "QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"}
+                ]
+              }
+            ]
           }
           EOF
-          cat << EOF > message.json
+
+          # Create an adaptive card
+          cat << EOF > message-adaptive.json
           {
             "type": "message",
             "attachments": [
@@ -71,4 +76,7 @@ jobs:
             ]
           }
           EOF
-          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
+
+          # Send both cards
+          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message-plain.json
+          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message-adaptive.json
