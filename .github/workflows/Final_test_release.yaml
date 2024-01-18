@@ -17,22 +17,6 @@ jobs:
           {
             "type": "message",
             "@context": "https://schema.org/extensions",
-            "summary": "Channel Service Release",
-            "themeColor": "ff0000",
-            "title": "Channel Service Release",
-            "sections": [
-              {
-                "facts": [
-                  {"name": "Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/"},
-                  {"name": "QA Check List", "value": ""}
-                ]
-              },
-              {
-                "type": "TextBlock",
-                "wrap": true,
-                "text": "Hi <at>Kumar</at>,<at>Bhawan</at> ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
-              }
-            ],
             "attachments": [
               {
                 "contentType": "application/vnd.microsoft.card.adaptive",
@@ -41,7 +25,18 @@ jobs:
                   "body": [
                     {
                       "type": "TextBlock",
-                      "wrap": true,
+                      "text": "Channel Service Release"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "Full Changelog: [https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/](https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/)"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "QA Check List"
+                    },
+                    {
+                      "type": "TextBlock",
                       "text": "Hi <at>Kumar</at>,<at>Bhawan</at> ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
                     }
                   ],
@@ -62,7 +57,7 @@ jobs:
                         "type": "mention",
                         "text": "<at>Bhawan</at>",
                         "mentioned": {
-                          "id": "bkchinavada@evertz.com",
+                          "id": "bkchinavad@evertz.com",
                           "name": "Bhawan"
                         }
                       }
