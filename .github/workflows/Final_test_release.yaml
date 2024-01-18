@@ -14,21 +14,21 @@ jobs:
       - name: Notify Teams
         run: |
           # Create a combined JSON payload with both plain and adaptive cards
-          cat << EOF > message.json
-          { \
-            "@type": "MessageCard", \
-            "@context": "https://schema.org/extensions", \
-            "summary": "Channel Service Release", \
-            "themeColor": "ff0000", \
-            "title": "Channel Service Release ${{ steps.get-release-details.outputs.RELEASE_VERSION }}", \
-            "sections":[ \
-              {"facts":[ \
-                {"name":"Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/${{ steps.get-release-details.outputs.RELEASE_VERSION }}"}, 
-                {"name":"QA Check List", "value": "${{ steps.create-issue.outputs.ISSUE_URL }}"} \
-              ]} \
-            ], \
-          },
-          {
+          echo '{
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": "Channel Service Release",
+            "themeColor": "ff0000",
+            "title": "Channel Service Release ",
+            "sections":[
+              {"facts":[
+                {"name":"Full Changelog", "value": "https://github.com/evertz-fbrnd/channel-as-a-service/releases/tag/"}, 
+                {"name":"QA Check List", "value": ""}
+              ]}
+            ]
+          }' > message.json
+          
+          echo ',{
             "type": "message",
             "attachments": [
               {
@@ -68,8 +68,7 @@ jobs:
                 }
               }
             ]
-          }
-          EOF
+          }' >> message.json
 
           # Send the combined payload
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
