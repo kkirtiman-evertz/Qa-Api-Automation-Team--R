@@ -30,32 +30,9 @@ jobs:
               {
                 "type": "TextBlock",
                 "wrap": true,
-                "text": "Hi <at>Kumar</at>,<at>Bhawan</at> ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
+                "text": "Hi [Kumar](mailto:kkirtiman@evertz.com), [Bhawan](mailto:bkchinavada@evertz.com),\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
               }
-            ],
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                  "version": "1.0",
-                  "msteams": {
-                    "width": "Full",
-                    "entities": [
-                      {
-                        "type": "mention",
-                        "text": "<at>Kumar</at>",
-                        "mentioned": {
-                          "id": "kkirtiman@evertz.com",
-                          "name": "Kumar"
-                        }
-                      },
-                      {
-                        "type": "mention",
-                        "text": "<at>Bhawan</at>",
-                        "mentioned": {
-                          "id": "bkchinavada@evertz.com",
-                          "name": "Bhawan"
-                        }
-                      }
-                    ]
-                  }
+            ]
           }
           EOF
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
