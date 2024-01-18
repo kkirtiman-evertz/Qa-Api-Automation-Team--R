@@ -28,10 +28,6 @@ jobs:
             ], \
           }
           EOF
-          curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
-      
-      - name: Notify people
-        run: |
           cat << EOF > message.json
           {
             "type": "message",
