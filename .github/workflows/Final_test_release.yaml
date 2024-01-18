@@ -24,8 +24,10 @@ jobs:
                   "type": "AdaptiveCard",
                   "body": [
                     {
-                      "type": "title",
-                      "text": "Channel Service Release"
+                      "type": "TextBlock",
+                      "text": "Channel Service Release",
+                      "size": "Large",  // Adjust size as needed
+                      "weight": "Bolder"  // Adjust weight as needed
                     },
                     {
                       "type": "TextBlock",
