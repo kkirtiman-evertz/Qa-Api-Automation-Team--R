@@ -13,11 +13,20 @@ jobs:
 
       - name: Notify Teams
         run: |
+          # Define release engineers
           release_engineers=(
             "Kumar:kkirtiman@evertz.com"
             "Bhawan:bkchinavad@evertz.com"
             # Add more engineers here if needed
           )
+          
+          # Construct the mentions string
+          mentions=""
+          for engineer in "${release_engineers[@]}"; do
+              name=$(echo "$engineer" | cut -d':' -f1)
+              mentions+="\"<at>$name</at>\","
+          done
+          mentions=$(echo "$mentions" | sed 's/,$//')  # Remove trailing comma
           
           # Construct the message JSON
           cat << EOF > message.json
@@ -46,7 +55,7 @@ jobs:
                     },
                     {
                       "type": "TextBlock",
-                      "text": "Hi $(IFS=,; echo "<at>${release_engineers[*]/%<\/at>/</at>,<at>}") ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
+                      "text": "Hi $mentions,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
                     }
                   ],
                   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -54,23 +63,23 @@ jobs:
                   "msteams": {
                     "width": "Full",
                     "entities": [
-          $(for engineer in "${release_engineers[@]}"; do
-              name=$(echo "$engineer" | cut -d':' -f1)
-              email=$(echo "$engineer" | cut -d':' -f2)
-              echo "            {"
-              echo "              \"type\": \"mention\","
-              echo "              \"text\": \"<at>$name</at>\","
-              echo "              \"mentioned\": {"
-              echo "                \"id\": \"$email\","
-              echo "                \"name\": \"$name\""
-              echo "              }"
-              echo "            },"
-          done)
-                    ]
-                  }
-                }
-              }
-            ]
-          }
-          EOF
+                    $(for engineer in "${release_engineers[@]}"; do
+                        name=$(echo "$engineer" | cut -d':' -f1)
+                        email=$(echo "$engineer" | cut -d':' -f2)
+                        echo "                      {"
+                        echo "                        \"type\": \"mention\","
+                        echo "                        \"text\": \"<at>$name</at>\","
+                        echo "                        \"mentioned\": {"
+                        echo "                          \"id\": \"$email\","
+                        echo "                          \"name\": \"$name\""
+                        echo "                        }"
+                        echo "                      },"
+                    done)
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                            EOF
           curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
