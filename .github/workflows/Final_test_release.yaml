@@ -13,6 +13,13 @@ jobs:
 
       - name: Notify Teams
         run: |
+          release_engineers=(
+            "Kumar:kkirtiman@evertz.com"
+            "Bhawan:bkchinavad@evertz.com"
+            # Add more engineers here if needed
+          )
+          
+          # Construct the message JSON
           cat << EOF > message.json
           {
             "type": "message",
@@ -26,8 +33,8 @@ jobs:
                     {
                       "type": "TextBlock",
                       "text": "Channel Service Release",
-                      "size": "Large",  // Adjust size as needed
-                      "weight": "Bolder"  // Adjust weight as needed
+                      "size": "Large",
+                      "weight": "Bolder"
                     },
                     {
                       "type": "TextBlock",
@@ -39,7 +46,7 @@ jobs:
                     },
                     {
                       "type": "TextBlock",
-                      "text": "Hi <at>Kumar</at>,<at>Bhawan</at> ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
+                      "text": "Hi $(IFS=,; echo "<at>${release_engineers[*]/%<\/at>/</at>,<at>}") ,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
                     }
                   ],
                   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -47,22 +54,18 @@ jobs:
                   "msteams": {
                     "width": "Full",
                     "entities": [
-                      {
-                        "type": "mention",
-                        "text": "<at>Kumar</at>",
-                        "mentioned": {
-                          "id": "kkirtiman@evertz.com",
-                          "name": "Kumar"
-                        }
-                      },
-                      {
-                        "type": "mention",
-                        "text": "<at>Bhawan</at>",
-                        "mentioned": {
-                          "id": "bkchinavad@evertz.com",
-                          "name": "Bhawan"
-                        }
-                      }
+          $(for engineer in "${release_engineers[@]}"; do
+              name=$(echo "$engineer" | cut -d':' -f1)
+              email=$(echo "$engineer" | cut -d':' -f2)
+              echo "            {"
+              echo "              \"type\": \"mention\","
+              echo "              \"text\": \"<at>$name</at>\","
+              echo "              \"mentioned\": {"
+              echo "                \"id\": \"$email\","
+              echo "                \"name\": \"$name\""
+              echo "              }"
+              echo "            },"
+          done)
                     ]
                   }
                 }
