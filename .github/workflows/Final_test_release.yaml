@@ -18,7 +18,7 @@ jobs:
             "Bhawan:bkchinavad@evertz.com"
             # Add more engineers here if needed
           )
-
+          
           # Construct the mentions string
           mentions=""
           for engineer in "${release_engineers[@]}"; do
@@ -26,9 +26,9 @@ jobs:
               mentions+="\"<at>$name</at>\","
           done
           mentions=$(echo "$mentions" | sed 's/,$//')  # Remove trailing comma
-
+          
           # Construct the message JSON
-          cat << EOF > message.json
+          cat <<EOF > message.json
           {
             "type": "message",
             "@context": "https://schema.org/extensions",
@@ -54,7 +54,7 @@ jobs:
                     },
                     {
                       "type": "TextBlock",
-                      "text": "Hi $mentions,\n This is a **final test** before moving forward.\n You can start assigning tickets to yourself.\n Thank you!"
+                      "text": "Hi $mentions,\nThis is a **final test** before moving forward.\nYou can start assigning tickets to yourself.\nThank you!"
                     }
                   ],
                   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -62,18 +62,18 @@ jobs:
                   "msteams": {
                     "width": "Full",
                     "entities": [
-                    $(for engineer in "${release_engineers[@]}"; do
-                    name=$(echo "$engineer" | cut -d':' -f1)
-                    email=$(echo "$engineer" | cut -d':' -f2)
-                    echo "                      {"
-                    echo "                        \"type\": \"mention\","
-                    echo "                        \"text\": \"<at>$name</at>\","
-                    echo "                        \"mentioned\": {"
-                    echo "                          \"id\": \"$email\","
-                    echo "                          \"name\": \"$name\""
-                    echo "                        }"
-                    echo "                      },"
-                    done)
+          $(for engineer in "${release_engineers[@]}"; do
+              name=$(echo "$engineer" | cut -d':' -f1)
+              email=$(echo "$engineer" | cut -d':' -f2)
+              echo "            {"
+              echo "              \"type\": \"mention\","
+              echo "              \"text\": \"<at>$name</at>\","
+              echo "              \"mentioned\": {"
+              echo "                \"id\": \"$email\","
+              echo "                \"name\": \"$name\""
+              echo "              }"
+              echo "            },"
+          done)
                     ]
                   }
                 }
