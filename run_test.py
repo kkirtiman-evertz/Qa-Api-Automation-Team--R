@@ -28,7 +28,7 @@ def find_test_py_files(directory):
     """
     Finds and returns a list of test files in the specified directory.
     Args:
-        directory (str): Directory to search for test files.
+        directory (str): Directories to search for test files.
     Returns:
         List of file paths for all the test files in the directory.
     """
