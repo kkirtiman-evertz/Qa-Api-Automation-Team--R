@@ -4,7 +4,7 @@ people_queue = [
     {"name": "Kumar", "mailId": "kkirtiman@evertz.com"},
     # {"name": "Halima", "mailId": "halimaa@evertz.com"},
     # {"name": "Ashish", "mailId": "asonone@evertz.com"},
-    # Add more people as needed
+    # Add more people as neededs
 ]
 
 def construct_message(people):
