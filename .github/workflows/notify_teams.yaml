@@ -1,0 +1,38 @@
+name: Notify Teams on New Issue
+
+on:
+  issues:
+    types:
+      - ope
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Generate Message JSON
+        run: |
+          python mention_people.py > message.json
+
+      - name: Notify Teams
+        run: |
+          # title="**Channel Release Check**"
+          # message=" **${title}** \n\n\n\n
+          # curl -X POST ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }} --header 'Content-Type: application/json' -d @message.json
+          teams_webhook_url = "https://evertz1.webhook.office.com/webhookb2/33be58bf-bed8-4287-bd32-7b739fd3a2f6@e7ca1d1b-0b74-449f-8cc2-a9865bfc0a5f/IncomingWebhook/3fd543a567cb4d55ad46646ef1a798e2/bb4014fc-682b-4603-bb76-e94aff3c8d10"
+          headers = {
+              "Content-Type": "application/json"
+          }
+          response = requests.post(teams_webhook_url, json=message, headers=headers)
+          if response.status_code == 200:
+              print("Reminder sent successfully.")
+          else:
+              print("Failed to send reminder.")
+      
+       
+      
+      # Send a reminder message to all people in the queue
+      # send_reminder(people_queue)
