@@ -13,9 +13,7 @@ jobs:
       id-token: write
       contents: write
 
-    if: |
-        contains(github.event.pull_request.labels.*.name, 'build-jar') &&
-        ${{ github.event.pull_request.merged }}
+    if: contains(github.event.pull_request.labels.*.name, 'build-jar')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
