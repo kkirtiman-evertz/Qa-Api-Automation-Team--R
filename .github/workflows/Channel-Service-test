@@ -1,0 +1,97 @@
+name: Channel service E2E automation
+on:
+  workflow_dispatch:
+    inputs:
+      testname:
+        description: Select a test
+        required: true
+        type: choice
+        options:
+          - scte-capture
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  trigger-step-function:
+    runs-on: ubuntu-latest
+    outputs:
+      stepfunction_arn: ${{ steps.trigger_step_function.outputs.stepfunction_arn }}
+      stepfunction_execution: ${{ steps.trigger_step_function.outputs.stepfunction_execution }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::944486121133:role/PlayoutApiAutomationRole
+          aws-region: us-east-1
+      
+      - name: Trigger Step Function
+        id: trigger_step_function
+        run: |
+          if [ "${{ github.event.inputs.testname }}" == "scte-capture" ]; then
+            stepfunction_arn=$(aws stepfunctions list-state-machines \
+              --query "stateMachines[?starts_with(name, 'ScteCaptureStateMachine')].stateMachineArn" \
+              --output json \
+              | grep -o 'arn:aws:states:[^"]*')
+            if [ -n "$stepfunction_arn" ]; then
+              echo "Step Function ARN: $stepfunction_arn"
+              echo "stepfunction_arn=$stepfunction_arn" >> $GITHUB_OUTPUT
+              stepfunction_execution=$(aws stepfunctions start-execution \
+                --state-machine-arn "$stepfunction_arn" \
+                --name "GitHubActionExecution-$(date +%s)" \
+                --query 'executionArn' \
+                --output text)
+              echo "Step Function Execution ARN: $stepfunction_execution"
+              echo "stepfunction_execution=$stepfunction_execution" >> $GITHUB_OUTPUT
+            else
+              echo "No matching Step Function found."
+            fi
+          else
+            echo "Test not selected for Step Function trigger."
+          fi
+
+  fetch-executions:
+    needs: trigger-step-function
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::944486121133:role/PlayoutApiAutomationRole
+          aws-region: us-east-1
+      
+      - name: Fetch Step Function Executions
+        run: |
+          stepfunction_arn="${{ needs.trigger-step-function.outputs.stepfunction_arn }}"
+          executions=$(aws stepfunctions list-executions \
+            --state-machine-arn "$stepfunction_arn" \
+            --query 'executions[*].[name,status,startDate,stopDate]' \
+            --output json)
+          echo "Executions: $executions"
+          echo "executions=$executions" >> $GITHUB_ENV
+
+  notify-teams:
+    needs: [trigger-step-function, fetch-executions]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification to Microsoft Teams
+        uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          custom_payload: |
+            {
+              "text": "Step Function Execution Summary",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Step Function Execution Summary*\nARN: ${{ needs.trigger-step-function.outputs.stepfunction_arn }}\nLatest Execution: ${{ needs.trigger-step-function.outputs.stepfunction_execution }}\n\nAll Executions:\n${{ env.executions }}"
+                  }
+                }
+              ]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.MSTEAMS_WEBHOOK_URL }}
