@@ -1,97 +1,205 @@
-name: Channel service E2E automation
+name: Automated API Test Runner
 on:
   workflow_dispatch:
     inputs:
-      testname:
-        description: Select a test
+      region:
+        description: "Select a region"
         required: true
         type: choice
         options:
-          - scte-capture
+          - us-east-1
+          - ap-southeast-2
+          - eu-west-1
+          - us-west-2
+      env:
+        description: "Select an environment"
+        required: true
+        type: choice
+        options:
+          - dev
+          - test
+      service:
+        description: "Select a Service to run API tests"
+        required: true
+        type: choice
+        options:
+          - all
+          - channel_service
+          - playlist_management
+          - playlist_search_and_replace
+          - scheduled_assets
+      channel_id:
+        description: "Please enter channel ID from playout-build-test tenant"
+        required: true
+        type: string
 
-permissions:
-  id-token: write
-  contents: read
-
+  schedule:
+    - cron: "0 1 * * 2" # Schedule the workflow to run at 1:00 AM UTC on Tuesday (2 represents Tuesday)
+    - cron: "0 1 * * 5" # Schedule the workflow to run at 1:00 AM UTC on Friday (5 represents Friday)
 jobs:
-  trigger-step-function:
+  test:
+    permissions:
+      id-token: write
+      contents: write
+      checks: write
+      packages: write
     runs-on: ubuntu-latest
-    outputs:
-      stepfunction_arn: ${{ steps.trigger_step_function.outputs.stepfunction_arn }}
-      stepfunction_execution: ${{ steps.trigger_step_function.outputs.stepfunction_execution }}
+    timeout-minutes: 60
+
     steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::944486121133:role/PlayoutApiAutomationRole
-          aws-region: us-east-1
-      
-      - name: Trigger Step Function
-        id: trigger_step_function
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Update api-tests-config.yaml
         run: |
-          if [ "${{ github.event.inputs.testname }}" == "scte-capture" ]; then
-            stepfunction_arn=$(aws stepfunctions list-state-machines \
-              --query "stateMachines[?starts_with(name, 'ScteCaptureStateMachine')].stateMachineArn" \
-              --output json \
-              | grep -o 'arn:aws:states:[^"]*')
-            if [ -n "$stepfunction_arn" ]; then
-              echo "Step Function ARN: $stepfunction_arn"
-              echo "stepfunction_arn=$stepfunction_arn" >> $GITHUB_OUTPUT
-              stepfunction_execution=$(aws stepfunctions start-execution \
-                --state-machine-arn "$stepfunction_arn" \
-                --name "GitHubActionExecution-$(date +%s)" \
-                --query 'executionArn' \
-                --output text)
-              echo "Step Function Execution ARN: $stepfunction_execution"
-              echo "stepfunction_execution=$stepfunction_execution" >> $GITHUB_OUTPUT
-            else
-              echo "No matching Step Function found."
-            fi
+          # Replace keys and values in api-tests-config.yaml with input values
+          sed -i "s/^region: .*/region: ${{ inputs.region }}/" api-tests-config.yaml
+          sed -i "s/^env: .*/env: ${{ inputs.env }}/" api-tests-config.yaml
+          sed -i "s/^channelId: .*/channelId: ${{ inputs.channel_id }}/" api-tests-config.yaml
+
+      - name: Get UTC Date and Time
+        id: utc_time
+        run: |
+          UTC_TIME=$(TZ=UTC date +'%A, %B %dst %Y, %I:%M:%S %p UTC' | sed 's/st/ /')
+          echo "::set-output name=utc_time::$UTC_TIME"
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pipenv wheel
+      - id: cache-pipenv
+        uses: actions/cache@v1
+        with:
+          path: ~/.local/share/virtualenvs
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        run: |
+          pipenv sync
+
+      - name: Configure AWS credentials for eio-dev
+        uses: mcblair/configure-aws-profile-action@v0.1.1
+        with:
+          role-arn: arn:aws:iam::944486121133:role/PlayoutApiAutomationRole
+          profile-name: eio-dev
+          region: us-east-1
+
+      - name: Configure AWS credentials for mock-customer-access
+        uses: mcblair/configure-aws-profile-action@v0.1.1
+        with:
+          role-arn: arn:aws:iam::670153681517:role/playout-api-mock-customer-role
+          profile-name: EvertzIOMockCustomerAccess
+          region: us-east-1
+
+      - name: Clean Up Previous HTML Reports
+        run: |
+          rm -f /tmp/*.html
+
+      - name: Run test suite
+        run: |
+          selected_service="${{ github.event.inputs.service }}"
+          if [ -z "$selected_service" ]; then
+            echo "No specific service is selected. Running the entire test suite..."
+            pipenv run python run_test.py
           else
-            echo "Test not selected for Step Function trigger."
+            echo "Running tests for selected service: $selected_service"
+            pipenv run python run_test.py --service "${{ github.event.inputs.service }}"
           fi
 
-  fetch-executions:
-    needs: trigger-step-function
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::944486121133:role/PlayoutApiAutomationRole
-          aws-region: us-east-1
-      
-      - name: Fetch Step Function Executions
+      - name: Read Summary Report to Get Test Results
+        if: always()
         run: |
-          stepfunction_arn="${{ needs.trigger-step-function.outputs.stepfunction_arn }}"
-          executions=$(aws stepfunctions list-executions \
-            --state-machine-arn "$stepfunction_arn" \
-            --query 'executions[*].[name,status,startDate,stopDate]' \
-            --output json)
-          echo "Executions: $executions"
-          echo "executions=$executions" >> $GITHUB_ENV
+          bash results.sh
 
-  notify-teams:
-    needs: [trigger-step-function, fetch-executions]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send notification to Microsoft Teams
-        uses: 8398a7/action-slack@v3
+      - name: Archive pytest-reports
+        uses: actions/upload-artifact@v3
+        if: always()
         with:
-          status: custom
-          custom_payload: |
+          name: pytest-reports
+          path: /tmp/*.html
+
+      - name: Publish Test Results
+        uses: mikepenz/action-junit-report@v4
+        if: always()
+        with:
+          report_paths: "**.xml"
+          include_passed: true
+          detailed_summary: true
+
+      - name: Notify MS Teams on Failure
+        uses: skitionek/notify-microsoft-teams@master
+        if: failure()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK_URL }}
+          overwrite: |
             {
-              "text": "Step Function Execution Summary",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Step Function Execution Summary*\nARN: ${{ needs.trigger-step-function.outputs.stepfunction_arn }}\nLatest Execution: ${{ needs.trigger-step-function.outputs.stepfunction_execution }}\n\nAll Executions:\n${{ env.executions }}"
+            "type": "AdaptiveCard",
+            "body": [
+              {
+                "type": "TextBlock",
+                "size": "Large",
+                "weight": "Bolder",
+                "text": "Backend API Automation Tests"
+              },
+              {
+                "type": "TextBlock",
+                "text": "This workflow was triggered by: ${{ github.actor }} on ${{ steps.utc_time.outputs.utc_time }}",
+                "wrap": true
+              },
+              {
+                "type": "ColumnSet",
+                "columns": [
+                  {
+                    "type": "Column",
+                    "width": "auto",
+                    "items": [
+                      {
+                        "type": "Image",
+                        "url": "${{ github.event.sender.avatar_url }}",
+                        "size": "Small",
+                        "style": "Person"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "weight": "Bolder",
+                        "text": "Test Results",
+                        "wrap": true
+                      },
+                      {
+                        "type": "TextBlock",
+                        "spacing": "None",
+                        "text": "&#127937; Total: ${{ env.TESTS }} | &#x2705; Passed: ${{ env.PASSED }} | &#x274C; Failed: ${{ env.FAILURES }} | &#9193; Skipped: ${{ env.SKIPPED }} | &#128165; Errors: ${{ env.ERRORS }}",
+                        "isSubtle": true,
+                        "wrap": true
+                      }
+                    ]
                   }
-                }
-              ]
-            }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI}}
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "type": "Action.OpenUrl",
+                "title": "View Workflow",
+                "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              },
+              {
+                "type": "Action.OpenUrl",
+                "title": "View Repository",
+                "url": "https://github.com/${{ github.repository }}"
+              }
+            ],
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.2"
+          
