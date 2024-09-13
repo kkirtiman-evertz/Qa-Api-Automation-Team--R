@@ -135,7 +135,7 @@ jobs:
         uses: skitionek/notify-microsoft-teams@master
         if: failure()
         with:
-          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK_URL }}
+          webhook_url: ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }}
           overwrite: |
             {
             "type": "AdaptiveCard",
