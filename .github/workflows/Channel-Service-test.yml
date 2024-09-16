@@ -28,7 +28,7 @@ jobs:
         if: always()
         with:
           webhook_url: ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }}
-          message: |
+          raw: |
             {
               "@type": "MessageCard",
               "@context": "http://schema.org/extensions",
