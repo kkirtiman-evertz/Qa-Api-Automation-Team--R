@@ -22,7 +22,6 @@ jobs:
         run: |
           UTC_TIME=$(TZ=UTC date +'%A, %B %dst %Y, %I:%M:%S %p UTC' | sed 's/st/ /')
           echo "::set-output name=utc_time::$UTC_TIME"
-
       - name: Notify MS Teams on Failure
         uses: skitionek/notify-microsoft-teams@master
         if: always()
@@ -94,5 +93,3 @@ jobs:
                 }
               ]
             }
-            }
-
