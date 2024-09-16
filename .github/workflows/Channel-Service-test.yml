@@ -26,7 +26,7 @@ jobs:
         uses: skitionek/notify-microsoft-teams@master
         if: always()
         with:
-          webhook_url: ${{ secrets.BUILD_FAILURE_API_TEST_ALERT_WEBHOOK }}
+          webhook_url: ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }}
           raw: |
             {
               "title": "Backend API Automation Tests",
