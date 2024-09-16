@@ -36,14 +36,14 @@ jobs:
               "body": [
                 {
                   "type": "TextBlock",
-                  "size": "ExtraLarge", 
+                  "size": "Large",
                   "weight": "Bolder",
-                  "text": "Backend API Automation Tests Failed",
+                  "text": "Backend API Automation Tests ",
                   "wrap": true
                 },
                 {
                   "type": "TextBlock",
-                  "text": "This workflow was triggered by: ${{ github.actor }} on ${{ steps.utc_time.outputs.utc_time }}",
+                  "text": "This workflow was triggered by: ${github.actor} on ${steps.utc_time.outputs.utc_time}",
                   "wrap": true
                 },
                 {
@@ -55,7 +55,7 @@ jobs:
                       "items": [
                         {
                           "type": "Image",
-                          "url": "${{ github.event.sender.avatar_url }}",
+                          "url": "${github.event.sender.avatar_url}",
                           "size": "Small",
                           "style": "Person"
                         }
@@ -73,7 +73,7 @@ jobs:
                         },
                         {
                           "type": "TextBlock",
-                          "text": "🏁 Total: ${{ env.TESTS }} | ✅ Passed: ${{ env.PASSED }} | ❌ Failed: ${{ env.FAILURES }} | ⏭️ Skipped: ${{ env.SKIPPED }} | 💥 Errors: ${{ env.ERRORS }}",
+                          "text": "🏁 Total: ${env.TESTS} | ✅ Passed: ${env.PASSED} | ❌ Failed: ${env.FAILURES} | ⏭️ Skipped: ${env.SKIPPED} | 💥 Errors: ${env.ERRORS}",
                           "wrap": true
                         }
                       ]
@@ -85,13 +85,14 @@ jobs:
                 {
                   "type": "Action.OpenUrl",
                   "title": "View Workflow",
-                  "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  "url": "https://github.com/${github.repository}/actions/runs/${github.run_id}"
                 },
                 {
                   "type": "Action.OpenUrl",
                   "title": "View Repository",
-                  "url": "https://github.com/${{ github.repository }}"
+                  "url": "https://github.com/${github.repository}"
                 }
               ]
+            }
             }
 
