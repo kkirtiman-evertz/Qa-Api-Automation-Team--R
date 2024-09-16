@@ -26,70 +26,39 @@ jobs:
         uses: skitionek/notify-microsoft-teams@master
         if: always()
         with:
-          webhook_url: ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }}
+          webhook_url: ${{ secrets.BUILD_FAILURE_API_TEST_ALERT_WEBHOOK }}
           raw: |
             {
-              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-              "type": "AdaptiveCard",
-              "version": "1.3",
-              "body": [
+              "title": "Backend API Automation Tests",
+              "text": "This workflow was triggered by: ${{ github.actor }} on ${{ steps.utc_time.outputs.utc_time }}",
+              "sections": [
                 {
-                  "type": "TextBlock",
-                  "size": "Large",
-                  "weight": "Bolder",
-                  "text": "Backend API Automation Tests ",
-                  "wrap": true
+                  "activityImage": "${{ github.event.sender.avatar_url }}",
+                  "activityTitle": "Test Results",
+                  "activitySubtitle": "&#127937; Total: ${{ env.TESTS }} | &#x2705; Passed: ${{ env.PASSED }} | &#x274C; Failed: ${{ env.FAILURES }} | &#9193; Skipped: ${{ env.SKIPPED }} | &#128165; Errors: ${{ env.ERRORS }}"
+                }
+              ],
+              "potentialAction": [
+                {
+                  "@type": "OpenUri",
+                  "name": "View Workflow",
+                  "targets": [
+                    {
+                      "os": "default",
+                      "uri": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }
+                  ]
                 },
                 {
-                  "type": "TextBlock",
-                  "text": "This workflow was triggered by: ${github.actor} on ${steps.utc_time.outputs.utc_time}",
-                  "wrap": true
-                },
-                {
-                  "type": "ColumnSet",
-                  "columns": [
+                  "@type": "OpenUri",
+                  "name": "View Repository",
+                  "targets": [
                     {
-                      "type": "Column",
-                      "width": "auto",
-                      "items": [
-                        {
-                          "type": "Image",
-                          "url": "${github.event.sender.avatar_url}",
-                          "size": "Small",
-                          "style": "Person"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "Column",
-                      "width": "stretch",
-                      "items": [
-                        {
-                          "type": "TextBlock",
-                          "weight": "Bolder",
-                          "text": "Test Results",
-                          "wrap": true
-                        },
-                        {
-                          "type": "TextBlock",
-                          "text": "🏁 Total: ${env.TESTS} | ✅ Passed: ${env.PASSED} | ❌ Failed: ${env.FAILURES} | ⏭️ Skipped: ${env.SKIPPED} | 💥 Errors: ${env.ERRORS}",
-                          "wrap": true
-                        }
-                      ]
+                      "os": "default",
+                      "uri": "https://github.com/${{ github.repository }}"
                     }
                   ]
                 }
               ],
-              "actions": [
-                {
-                  "type": "Action.OpenUrl",
-                  "title": "View Workflow",
-                  "url": "https://github.com/${github.repository}/actions/runs/${github.run_id}"
-                },
-                {
-                  "type": "Action.OpenUrl",
-                  "title": "View Repository",
-                  "url": "https://github.com/${github.repository}"
-                }
-              ]
+            "themeColor": "dc3545"
             }
