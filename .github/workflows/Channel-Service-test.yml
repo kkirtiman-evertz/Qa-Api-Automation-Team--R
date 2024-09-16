@@ -132,73 +132,40 @@ jobs:
           detailed_summary: true
 
       - name: Notify MS Teams on Failure
-        # uses: skitionek/notify-microsoft-teams@master
+        uses: skitionek/notify-microsoft-teams@master
         if: failure()
         with:
           webhook_url: ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }}
-          run: |
+          message: |
             {
-              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-              "type": "AdaptiveCard",
-              "version": "1.3",
-              "body": [
-                {
-                  "type": "TextBlock",
-                  "size": "Medium",
-                  "weight": "Bolder",
-                  "text": "Backend API Automation Tests"
-                },
-                {
-                  "type": "TextBlock",
-                  "text": "This workflow was triggered by: ${{ github.actor }} on ${{ steps.utc_time.outputs.utc_time }}",
-                  "wrap": true
-                },
-                {
-                  "type": "ColumnSet",
-                  "columns": [
-                    {
-                      "type": "Column",
-                      "width": "auto",
-                      "items": [
-                        {
-                          "type": "Image",
-                          "url": "${{ github.event.sender.avatar_url }}",
-                          "size": "Small",
-                          "style": "Person"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "Column",
-                      "width": "stretch",
-                      "items": [
-                        {
-                          "type": "TextBlock",
-                          "weight": "Bolder",
-                          "text": "Test Results",
-                          "wrap": true
-                        },
-                        {
-                          "type": "TextBlock",
-                          "text": "🏁 Total: ${{ env.TESTS }} | ✅ Passed: ${{ env.PASSED }} | ❌ Failed: ${{ env.FAILURES }} | ⏭️ Skipped: ${{ env.SKIPPED }} | 💥 Errors: ${{ env.ERRORS }}",
-                          "wrap": true
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ],
-              "actions": [
-                {
-                  "type": "Action.OpenUrl",
-                  "title": "View Workflow",
-                  "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                },
-                {
-                  "type": "Action.OpenUrl",
-                  "title": "View Repository",
-                  "url": "https://github.com/${{ github.repository }}"
-                }
-              ]
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "themeColor": "0076D7",
+              "summary": "Backend API Automation Tests Failed",
+              "sections": [{
+                "activityTitle": "Backend API Automation Tests",
+                "activitySubtitle": "This workflow was triggered by: ${{ github.actor }} on ${{ steps.utc_time.outputs.utc_time }}",
+                "activityImage": "${{ github.event.sender.avatar_url }}",
+                "facts": [{
+                  "name": "Test Results",
+                  "value": "🏁 Total: ${{ env.TESTS }} | ✅ Passed: ${{ env.PASSED }} | ❌ Failed: ${{ env.FAILURES }} | ⏭️ Skipped: ${{ env.SKIPPED }} | 💥 Errors: ${{ env.ERRORS }}"
+                }],
+                "markdown": true
+              }],
+              "potentialAction": [{
+                "@type": "OpenUri",
+                "name": "View Workflow",
+                "targets": [{
+                  "os": "default",
+                  "uri": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                }]
+              },
+              {
+                "@type": "OpenUri",
+                "name": "View Repository",
+                "targets": [{
+                  "os": "default",
+                  "uri": "https://github.com/${{ github.repository }}"
+                }]
+              }]
             }
-
