@@ -23,75 +23,82 @@ jobs:
           UTC_TIME=$(TZ=UTC date +'%A, %B %dst %Y, %I:%M:%S %p UTC' | sed 's/st/ /')
           echo "::set-output name=utc_time::$UTC_TIME"
 
+      - name: Generate Teams Notification
+        run: |
+          PAYLOAD=$(cat <<EOF
+          {
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "type": "AdaptiveCard",
+            "version": "1.3",
+            "body": [
+              {
+                "type": "TextBlock",
+                "size": "Large",
+                "weight": "Bolder",
+                "text": "Backend API Automation Tests Failed",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "This workflow was triggered by: ${GITHUB_ACTOR} on ${UTC_TIME}",
+                "wrap": true
+              },
+              {
+                "type": "ColumnSet",
+                "columns": [
+                  {
+                    "type": "Column",
+                    "width": "auto",
+                    "items": [
+                      {
+                        "type": "Image",
+                        "url": "${GITHUB_EVENT_SENDER_AVATAR}",
+                        "size": "Small",
+                        "style": "Person"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "weight": "Bolder",
+                        "text": "Test Results",
+                        "wrap": true
+                      },
+                      {
+                        "type": "TextBlock",
+                        "text": "🏁 Total: ${TOTAL_TESTS} | ✅ Passed: ${PASSED_TESTS} | ❌ Failed: ${FAILED_TESTS} | ⏭️ Skipped: ${SKIPPED_TESTS} | 💥 Errors: ${ERROR_TESTS}",
+                        "wrap": true
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "type": "Action.OpenUrl",
+                "title": "View Workflow",
+                "url": "https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+              },
+              {
+                "type": "Action.OpenUrl",
+                "title": "View Repository",
+                "url": "https://github.com/${GITHUB_REPOSITORY}"
+              }
+            ]
+          }
+          EOF
+          )
+          echo "::set-output name=teams_payload::$PAYLOAD"
+        shell: bash
+      
       - name: Notify MS Teams on Failure
         uses: skitionek/notify-microsoft-teams@master
-        if: always()
+        if: failure()
         with:
           webhook_url: ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }}
-          raw: |
-            {
-              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-              "type": "AdaptiveCard",
-              "version": "1.3",
-              "body": [
-                {
-                  "type": "TextBlock",
-                  "size": "Large",
-                  "weight": "Bolder",
-                  "text": "Backend API Automation Tests Failed",
-                  "wrap": true
-                },
-                {
-                  "type": "TextBlock",
-                  "text": "This workflow was triggered by: ${github.actor} on ${steps.utc_time.outputs.utc_time}",
-                  "wrap": true
-                },
-                {
-                  "type": "ColumnSet",
-                  "columns": [
-                    {
-                      "type": "Column",
-                      "width": "auto",
-                      "items": [
-                        {
-                          "type": "Image",
-                          "url": "${github.event.sender.avatar_url}",
-                          "size": "Small",
-                          "style": "Person"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "Column",
-                      "width": "stretch",
-                      "items": [
-                        {
-                          "type": "TextBlock",
-                          "weight": "Bolder",
-                          "text": "Test Results",
-                          "wrap": true
-                        },
-                        {
-                          "type": "TextBlock",
-                          "text": "🏁 Total: ${env.TESTS} | ✅ Passed: ${env.PASSED} | ❌ Failed: ${env.FAILURES} | ⏭️ Skipped: ${env.SKIPPED} | 💥 Errors: ${env.ERRORS}",
-                          "wrap": true
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ],
-              "actions": [
-                {
-                  "type": "Action.OpenUrl",
-                  "title": "View Workflow",
-                  "url": "https://github.com/${github.repository}/actions/runs/${github.run_id}"
-                },
-                {
-                  "type": "Action.OpenUrl",
-                  "title": "View Repository",
-                  "url": "https://github.com/${github.repository}"
-                }
-              ]
-            }
-
+          raw: ${{ steps.generate_teams_notification.outputs.teams_payload }}
