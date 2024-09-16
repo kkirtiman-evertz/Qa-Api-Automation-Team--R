@@ -132,7 +132,7 @@ jobs:
           detailed_summary: true
 
       - name: Notify MS Teams on Failure
-        uses: skitionek/notify-microsoft-teams@master
+        # uses: skitionek/notify-microsoft-teams@master
         if: failure()
         with:
           webhook_url: ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }}
