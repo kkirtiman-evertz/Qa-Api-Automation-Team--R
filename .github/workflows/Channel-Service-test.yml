@@ -136,7 +136,7 @@ jobs:
         if: failure()
         with:
           webhook_url: ${{ secrets.MICROSOFT_TEAMS_ISSUE_NOTIFICATION_URI }}
-          message: |
+          run: |
             {
               "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
               "type": "AdaptiveCard",
