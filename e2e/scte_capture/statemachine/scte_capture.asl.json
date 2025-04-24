@@ -1,0 +1,93 @@
+{
+  "Comment": "A state machine that does scte capture.",
+  "StartAt": "Deploy Channel",
+  "States": {
+    "Deploy Channel": {
+      "Type": "Task",
+      "Resource": "${DeployChannelFunctionArn}",
+      "Next": "Wait For Channel Deployment"
+    },
+    "Wait For Channel Deployment": {
+      "Type": "Wait",
+      "Seconds": 600,
+      "Next": "Create Destination"
+    },
+    "Create Destination": {
+      "Type": "Task",
+      "Resource": "${CreateDestinationFunctionArn}",
+      "Catch": [
+        {
+          "ErrorEquals": ["ScteCaptureException"],
+          "Next": "Take Off Air"
+        }
+      ],
+      "ResultPath": "$.output",
+      "Next": "Import Playlist"
+    },
+    "Import Playlist": {
+      "Type": "Task",
+      "Resource": "${ImportPlaylistFunctionArn}",
+      "Catch": [
+        {
+          "ErrorEquals": ["ScteCaptureException"],
+          "Next": "Take Off Air"
+        }
+      ],
+      "InputPath": "$.output",
+      "ResultPath": "$.output",
+      "Next": "Wait for Import"
+    },
+    "Wait for Import": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "Prime Take"
+    },
+    "Prime Take": {
+      "Type": "Task",
+      "Resource": "${PrimeTakeFunctionArn}",
+      "Catch": [
+        {
+          "ErrorEquals": ["ScteCaptureException"],
+          "Next": "Take Off Air"
+        }
+      ],
+      "InputPath": "$.output",
+      "ResultPath": "$.output",
+      "Next": "Wait For TS Duck"
+    },
+    "Wait For TS Duck": {
+      "Type": "Wait",
+      "Seconds": 90,
+      "Next": "Verify Scte Run"
+    },
+    "Verify Scte Run": {
+      "Type": "Task",
+      "Resource": "${VerifyScteFunctionArn}",
+      "Catch": [
+        {
+          "ErrorEquals": ["ScteCaptureException"],
+          "Next": "Take Off Air"
+        }
+      ],
+      "InputPath": "$.output",
+      "ResultPath": "$.output",
+      "Next": "Can Finish"
+    },
+    "Can Finish": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.output.loop_counter",
+          "NumericEquals": 4,
+          "Next": "Take Off Air"
+        }
+      ],
+      "Default": "Import Playlist"
+    },
+    "Take Off Air": {
+      "Type": "Task",
+      "Resource": "${TakeOffAirFunctionArn}",
+      "End": true
+    }
+  }
+}
