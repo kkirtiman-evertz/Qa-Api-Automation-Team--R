@@ -5,20 +5,21 @@ name = "pypi"
 
 [packages]
 boto3 = "==1.28.52"
-requests = "==2.31.0"
+requests = "==2.32.2"
 tabulate = "==0.9.0"
 pytest = "==7.4.2"
-py = "==1.11.0"
-pytest-html = "==3.1.1"
+pytest-html = "==4.1.1"
 pytz = "==2023.3.post1"
 websocket-client ="==1.6.3"
 pytest-order ="==1.1.0"
 PyYAML ="==6.0.1"
 # linters / validators
-black = "==22.3.0"
+black = "==24.3.0"
 bandit = "==1.7.5"
 isort = "==5.10.1"
 pylint = "==2.17.5"
+defusedxml = "==0.7.1"
+prettier = "*"
 
 [dev-packages]
 
