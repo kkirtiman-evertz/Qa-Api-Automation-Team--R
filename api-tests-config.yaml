@@ -1,0 +1,6 @@
+region: us-east-1
+env: dev
+tenantId: 63a61456-ead0-4a87-8902-5ab5de617ee3 # playout-build-test tenant
+userName:
+password:
+channelId:
