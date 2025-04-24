@@ -82,19 +82,19 @@ jobs:
         run: |
           pipenv sync
 
-      - name: Configure AWS credentials for eio-dev
-        uses: mcblair/configure-aws-profile-action@v0.1.1
-        with:
-          role-arn: arn:aws:iam::944486121133:role/PlayoutApiAutomationRole
-          profile-name: eio-dev
-          region: us-east-1
+      # - name: Configure AWS credentials for eio-dev
+      #   uses: mcblair/configure-aws-profile-action@v0.1.1
+      #   with:
+      #     role-arn: arn:aws:iam::944486121133:role/PlayoutApiAutomationRole
+      #     profile-name: eio-dev
+      #     region: us-east-1
 
-      - name: Configure AWS credentials for mock-customer-access
-        uses: mcblair/configure-aws-profile-action@v0.1.1
-        with:
-          role-arn: arn:aws:iam::670153681517:role/playout-api-mock-customer-role
-          profile-name: EvertzIOMockCustomerAccess
-          region: us-east-1
+      # - name: Configure AWS credentials for mock-customer-access
+      #   uses: mcblair/configure-aws-profile-action@v0.1.1
+      #   with:
+      #     role-arn: arn:aws:iam::670153681517:role/playout-api-mock-customer-role
+      #     profile-name: EvertzIOMockCustomerAccess
+      #     region: us-east-1
 
       - name: Clean Up Previous HTML Reports
         run: |
