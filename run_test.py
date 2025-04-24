@@ -10,6 +10,10 @@ TESTS_DIRECTORY = "tests"
 TEST_SUITE_PREFIX = "tests_"
 
 test_suites = [x for x in os.listdir(TESTS_DIRECTORY)]
+test_py_files = glob.glob(
+    os.path.join(TESTS_DIRECTORY, "**", "test_*.py"), recursive=True
+)
+test_py_file_names = [os.path.basename(file) for file in test_py_files]
 
 
 def run_with_pytest(test_modules):
@@ -28,7 +32,7 @@ def find_test_py_files(directory):
     """
     Finds and returns a list of test files in the specified directory.
     Args:
-        directory (str): Directories to search for test files.
+        directory (str): Directory to search for test files.
     Returns:
         List of file paths for all the test files in the directory.
     """
@@ -45,7 +49,7 @@ def process_service_arguments(service_names):
     Returns:
         list: List of test module paths.
     """
-    if not service_names or service_names[0] == "all_test_suits":
+    if not service_names or service_names[0] == "all":
         return []
 
     test_modules = []
@@ -56,7 +60,15 @@ def process_service_arguments(service_names):
                 os.path.join(TESTS_DIRECTORY, test_suite)
             )
             test_modules.extend(all_req_test_files)
-    return test_modules
+        elif f"test_{selected_test_suite}.py" in test_py_file_names:
+            test_modules.extend(
+                filter(
+                    lambda test_file: f"test_{selected_test_suite}.py" in test_file,
+                    test_py_files,
+                )
+            )
+
+    return list(set(test_modules))
 
 
 def main():
