@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<Pharos version="0.1.0">
+	<DataExchangeHeader>
+		<CreationTime>2024-01-02T11:12:49.777</CreationTime>
+		<Description>Playlist Export</Description>
+		<DataSource>
+			<System>evertz.io Playout Automation</System>
+			<ExportHost>channel-service_da044e88-abd6-4f69-9a5a-d42b9993843e_X</ExportHost>
+			<Software>channel-service</Software>
+			<SoftwareVersion>36.0.0</SoftwareVersion>
+		</DataSource>
+	</DataExchangeHeader>
+	<Playlist>
+		<ChannelName>backend-automation-test-channel3d429ac2-fc20-4a0d-989b-d08deccaa91d</ChannelName>
+		<BlockList>
+			<Block>
+				<PlaylistItem>
+					<ItemReference>f8ae60a3-5d3f-4352-a7c8-60bcd611a3de</ItemReference>
+					<StartDate>2024-01-02T00:00:00.000</StartDate>
+					<StartTimecode>11:12:34;08</StartTimecode>
+					<StartMode>Manual</StartMode>
+					<ScheduledDuration>00:15:01;01</ScheduledDuration>
+					<Template>
+						<TemplateName>Live</TemplateName>
+						<DataElementList>
+							<DataElement>
+								<Name>livesource-liveTitle</Name>
+								<Value>Test Live</Value>
+							</DataElement>
+							<DataElement>
+								<Name>livesource-source</Name>
+								<Value>SRE_receiver</Value>
+							</DataElement>
+							<DataElement>
+								<Name>livesource-duration</Name>
+								<Value>00:10:00:00</Value>
+							</DataElement>
+						</DataElementList>
+					</Template>
+					<StartTime>2024-01-02T11:12:34.266</StartTime>
+				</PlaylistItem>
+			</Block>
+		</BlockList>
+		<BookmarkList/>
+	</Playlist>
+</Pharos>

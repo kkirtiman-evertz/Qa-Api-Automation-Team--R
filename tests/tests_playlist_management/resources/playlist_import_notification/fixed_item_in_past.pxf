@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Pharos version="0.1.0">
+	<DataExchangeHeader>
+		<CreationTime>2023-10-19T12:12:40.946</CreationTime>
+		<Description>Playlist Export</Description>
+		<DataSource>
+			<System>evertz.io Playout Automation</System>
+			<ExportHost>channel-service_2e665359-a507-4668-8085-b4e9986e992e_X</ExportHost>
+			<Software>channel-service</Software>
+			<SoftwareVersion>31.0.1</SoftwareVersion>
+		</DataSource>
+	</DataExchangeHeader>
+	<Playlist>
+		<ChannelName>TestChannel</ChannelName>
+		<BlockList>
+			<Block>
+				<PlaylistItem>
+					<ItemReference>264bba4c-bb66-4805-911c-ae20026f8349</ItemReference>
+					<StartDate>2022-10-19T05:30:00.000</StartDate>
+					<StartTimecode>06:41:51;27</StartTimecode>
+					<StartMode>Fixed</StartMode>
+					<ScheduleReference/>
+					<Template>
+						<TemplateName>Program</TemplateName>
+						<DataElementList>
+							<DataElement>
+								<Name>bug-endOffset</Name>
+								<Value>00:00:01:00</Value>
+							</DataElement>
+							<DataElement>
+								<Name>bug-startOffset</Name>
+								<Value>00:00:01:00</Value>
+							</DataElement>
+							<DataElement>
+								<Name>material-matId</Name>
+								<Value>TEST-UDAY-502</Value>
+							</DataElement>
+							<DataElement>
+								<Name>transition-transType</Name>
+								<Value>Cut</Value>
+							</DataElement>
+						</DataElementList>
+					</Template>
+					<StartTime>2023-10-19T12:11:51.947</StartTime>
+				</PlaylistItem>
+			</Block>
+		</BlockList>
+	</Playlist>
+</Pharos>

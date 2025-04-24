@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<Pharos version="0.1.0">
+	<DataExchangeHeader>
+		<CreationTime>2024-01-02T11:15:41.562</CreationTime>
+		<Description>Playlist Export</Description>
+		<DataSource>
+			<System>evertz.io Playout Automation</System>
+			<ExportHost>channel-service_da044e88-abd6-4f69-9a5a-d42b9993843e_X</ExportHost>
+			<Software>channel-service</Software>
+			<SoftwareVersion>36.0.0</SoftwareVersion>
+		</DataSource>
+	</DataExchangeHeader>
+	<Playlist>
+		<ChannelName>backend-automation-test-channel3d429ac2-fc20-4a0d-989b-d08deccaa91d</ChannelName>
+		<BlockList>
+			<Block>
+				<PlaylistItem>
+					<ItemReference>057c43f8-8702-4a96-86be-9bfa11956f0e</ItemReference>
+					<StartDate>2024-01-02T00:00:00.000</StartDate>
+					<StartTimecode>11:14:18;18</StartTimecode>
+					<StartMode>Manual</StartMode>
+					<ScheduledDuration>00:00:30;00</ScheduledDuration>
+					<ScheduledTitle>Wonder test 60s</ScheduledTitle>
+					<Template>
+						<TemplateName>Commercial</TemplateName>
+						<DataElementList>
+							<DataElement>
+								<Name>transition-transSpeed</Name>
+								<Value>Medium</Value>
+							</DataElement>
+							<DataElement>
+								<Name>material-matId</Name>
+								<Value>COMMHUG</Value>
+							</DataElement>
+							<DataElement>
+								<Name>transition-transType</Name>
+								<Value>Fade-Cut</Value>
+							</DataElement>
+						</DataElementList>
+					</Template>
+					<StartTime>2024-01-02T11:14:18.570</StartTime>
+				</PlaylistItem>
+			</Block>
+		</BlockList>
+		<BookmarkList/>
+	</Playlist>
+</Pharos>
