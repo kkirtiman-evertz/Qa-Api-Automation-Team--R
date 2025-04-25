@@ -1,0 +1,35 @@
+name: Verify Pytest Setup with Pipenv
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-pytest-fixed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pipenv
+
+      - name: Create pipenv environment and install pytest
+        run: |
+          pipenv --python 3.9
+          pipenv install pytest
+
+      - name: Create a script that uses pytest
+        run: |
+          printf "import pytest\n\ndef test_example():\n    assert True\n" > test_file.py
+
+
+      - name: Run pytest via pipenv
+        run: |
+          pipenv run pytest
