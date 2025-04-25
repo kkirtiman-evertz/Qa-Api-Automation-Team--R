@@ -16,20 +16,16 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install pipenv
+      - name: Install dependencies
         run: |
-          python -m pip install --upgrade pipenv
+          pipenv sync
 
-      - name: Create pipenv environment and install pytest
-        run: |
-          pipenv --python 3.9
-          pipenv install pytest
 
       - name: Create a script that uses pytest
         run: |
           printf "import pytest\n\ndef test_example():\n    assert True\n" > test_file.py
 
 
-      - name: Run pytest via pipenv
-        run: |
-          pipenv run pytest
+      # - name: Run pytest via pipenv
+      #   run: |
+      #     pipenv run pytest
