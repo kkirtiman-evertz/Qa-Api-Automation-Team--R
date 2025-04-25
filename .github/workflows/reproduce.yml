@@ -26,7 +26,12 @@ jobs:
 
       - name: Create a script that uses pytest
         run: |
-          echo "import pytest\n\ndef test_example():\n    assert True" > test_file.py
+          cat <<EOF > test_file.py
+import pytest
+
+def test_example():
+    assert True
+EOF
 
       - name: Try running the test (should fail)
         run: |
