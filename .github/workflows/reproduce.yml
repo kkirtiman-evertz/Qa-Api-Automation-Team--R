@@ -1,0 +1,33 @@
+name: Reproduce Pytest ImportError
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-pytest-broken:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pipenv
+
+      - name: Create pipenv environment WITHOUT installing pytest
+        run: |
+          pipenv --python 3.9
+
+      - name: Create a script that uses pytest
+        run: |
+          echo "import pytest\n\ndef test_example():\n    assert True" > test_file.py
+
+      - name: Try running the test (should fail)
+        run: |
+          pipenv run python test_file.py
